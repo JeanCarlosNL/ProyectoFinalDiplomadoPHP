@@ -2,7 +2,7 @@
 
 include "../layout/layout.php";
 
-$layout = new layout(true,"puestos",true);
+$layout = new layout(true,"candidatos",true);
 
 ?>
 
@@ -21,7 +21,7 @@ $layout = new layout(true,"puestos",true);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Puestos</title>
+    <title>Candidatos</title>
 </head>
 <body  id="page-top">
 <?php $layout->mostrarHeader();?>
@@ -33,7 +33,7 @@ $layout = new layout(true,"puestos",true);
     <!-- Breadcrumbs-->
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
-        <a href="listaElecciones.php">Puestos</a>
+        <a href="listaElecciones.php">Candidatos</a>
         </li>
         <li class="breadcrumb-item active">Lista</li>
     </ol>
@@ -106,11 +106,11 @@ $layout = new layout(true,"puestos",true);
         </div>
     </div>
 
-    <!--Tabla-->
+    <!--Formulario-->
     <div class="card mb-3">
         <div class="card-header">
-        <i class="fas fa-user-cog"></i> Listado de Puestos     
-            <a href="guardarPuestos.php"><button type="button" style="float: right;" class="btn btn-primary" data-target="#User" onclick="newCbUser('5')">Nueva</button></a>
+        <i class="fas fa-user-cog"></i> Formulario de Candidatos       
+            <a href="guardarElecciones.php"><button type="button" style="float: right;" class="btn btn-primary" data-target="#User" onclick="newCbUser('5')">Nueva</button></a>
             <!--button type="button" style="float: right;" class="btn btn-primary" data-toggle="modal" data-target="#User" onclick="newCbUser('5')">Nuevo</button-->
         </div>
 

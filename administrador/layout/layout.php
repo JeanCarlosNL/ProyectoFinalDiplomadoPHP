@@ -4,36 +4,58 @@ class layout
 
 {
     private $validation;
-    private $directory; 
-    private $mantenimiento;
-    private $detalle;
-    private $guardar;
-    function __construct($isPage,$validation,$isMantenimiento,$isGuardar)
+    private $entidad;
+    private $directory;
+
+   function __construct($esEntidad, $entidad, $directory)
     {
-        $this->directory = ($isPage) ? '../../' : "";
-        $this->validation = ($validation) ? "guardar.php" : "#guardar";
-        $this->mantenimiento = $isMantenimiento;
-        $this->guardar = $isGuardar;
+        $this->validation = ($esEntidad) ? '../../' : "../";
+        $this->entidad = $entidad;
+        $this->directory = ($directory) ? '../' : "";
     }
 
-    function guardarPag(){
-
-      if($this->guardar=="pokemon"){
-         return "../../index.php";
-      }
-      if($this->guardar=="region"){
-           return "listaRegiones.php";
-      }
-      if($this->guardar=="tipo"){
-            return "listaTipos.php";
-      }
-
-      if($this->guardar==false){
-         return "hidden";
-      }
-      return "";
+    function esDashboard(){
+      if($this->entidad=="dashboard"){
+        return "active";
+     }else{
+     return "";
+     }
     }
-
+    function esCandidatos(){
+      if($this->entidad=="candidatos"){
+         return "active";
+      }else{
+        return "";
+      }
+    }
+    function esCiudadanos(){
+     if($this->entidad=="ciudadanos"){
+        return "active";
+     }else{
+     return "";
+     }
+   }
+   function esElecciones(){
+     if($this->entidad=="elecciones"){
+        return "active";
+     }else{
+     return "";
+     }
+   }
+   function esPartidos(){
+     if($this->entidad=="partidos"){
+        return "active";
+     }else{
+     return "";
+     }
+   }
+   function esPuestos(){
+     if($this->entidad=="puestos"){
+        return "active";
+     }else{
+     return "";
+     }
+   }
     function guardarPag2(){
 
       if($this->guardar=="pokemon" || $this->guardar=="region" || $this->guardar=="tipo" ){
@@ -159,30 +181,36 @@ class layout
 
     <!-- Menu -->
     <ul class="sidebar navbar-nav">
-      <li class="nav-item active">
-        <a class="nav-link" href="Candidatos/listaCandidatos.php">
+      <li class="nav-item {$this->esDashboard()}">
+        <a class="nav-link" href="{$this->directory}dashboard.php">
+          <i class="fas fa-fw fa-tachometer-alt"></i>
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <li class="nav-item {$this->esCandidatos()}">
+        <a class="nav-link" href="{$this->directory}Candidatos/listaCandidatos.php">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Candidatos</span>
         </a>
       </li>
-      <li class="nav-item active">
-        <a class="nav-link" href="Partidos/listaPartidos.php">
+      <li class="nav-item {$this->esPartidos()}">
+        <a class="nav-link" href="{$this->directory}Partidos/listaPartidos.php">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Partidos</span>
         </a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="PuestosElectivos/listaPuestos.php">
+      <li class="nav-item {$this->esPuestos()}">
+        <a class="nav-link" href="{$this->directory}PuestosElectivos/listaPuestos.php">
           <i class="fas fa-fw fa-chart-area"></i>
           <span>Puesto electivo</span></a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="Ciudadanos/listaCiudadanos.php">
+      <li class="nav-item {$this->esCiudadanos()}">
+        <a class="nav-link" href="{$this->directory}Ciudadanos/listaCiudadanos.php">
           <i class="fas fa-fw fa-table"></i>
           <span>Ciudadanos</span></a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="Elecciones/listaElecciones.php">
+      <li class="nav-item {$this->esElecciones()}">
+        <a class="nav-link" href="{$this->directory}Elecciones/listaElecciones.php">
           <i class="fas fa-fw fa-table"></i>
           <span>Elecciones</span></a>
       </li>
@@ -197,23 +225,63 @@ EOF;
     public function mostrarFooter(){
 
         $footer = <<<EOF
-        <footer class="py-5 bg-dark">
-    <div class="container">
-      <p class="m-0 text-center text-white">Copyright &copy; Your Website 2020</p>
+        <!-- Sticky Footer -->
+<footer class="sticky-footer">
+  <div class="container my-auto">
+    <div class="copyright text-center my-auto">
+      <span>Copyright © Your Website 2019</span>
     </div>
-    <!-- /.container -->
+  </div>
 </footer>
 
-<!-- Bootstrap core JavaScript -->
-<script src="{$this->directory}styles/vendor/jquery/jquery.min.js"></script>
-<script src="{$this->directory}styles/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+</div>
+<!-- /.content-wrapper -->
 
-  <!-- Plugin JavaScript -->
-  <script src="{$this->directory}styles/vendor/jquery-easing/jquery.easing.min.js"></script>
+</div>
+<!-- /#wrapper -->
 
-  <!-- Custom JavaScript for this theme -->
-  <script src="{$this->directory}styles/js/scrolling-nav.js"></script>
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+<i class="fas fa-angle-up"></i>
+</a>
 
+<!-- Logout Modal-->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+  <div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+  <div class="modal-footer">
+    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+    <a class="btn btn-primary" href="login.html">Logout</a>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- Bootstrap core JavaScript-->
+<script src="{$this->validation}styles/vendor/jquery/jquery.min.js"></script>
+<script src="../styles/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="{$this->validation}styles/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+<!-- Page level plugin JavaScript-->
+<script src="{$this->validation}styles/vendor/chart.js/Chart.min.js"></script>
+<script src="{$this->validation}styles/vendor/datatables/jquery.dataTables.js"></script>
+<script src="{$this->validation}styles/vendor/datatables/dataTables.bootstrap4.js"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="{$this->validation}styles/js/sb-admin.min.js"></script>
+
+<!-- Demo scripts for this page-->
+<script src="{$this->validation}styles/js/demo/datatables-demo.js"></script>
+<script src="{$this->validation}styles/js/demo/chart-area-demo.js"></script>
 EOF;
 
    echo $footer;

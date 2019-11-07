@@ -109,8 +109,8 @@ $layout = new layout(true,"puestos",true);
     <!--Tabla-->
     <div class="card mb-3">
         <div class="card-header">
-        <i class="fas fa-user-cog"></i> Listado de Puestos     
-            <a href="guardarPuestos.php"><button type="button" style="float: right;" class="btn btn-primary" data-target="#User" onclick="newCbUser('5')">Nueva</button></a>
+        <i class="fas fa-user-cog"></i> Formulario de Puestos     
+            <a href="guardarElecciones.php"><button type="button" style="float: right;" class="btn btn-primary" data-target="#User" onclick="newCbUser('5')">Nueva</button></a>
             <!--button type="button" style="float: right;" class="btn btn-primary" data-toggle="modal" data-target="#User" onclick="newCbUser('5')">Nuevo</button-->
         </div>
 
