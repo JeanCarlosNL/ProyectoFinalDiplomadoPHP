@@ -39,7 +39,7 @@ $layout = new layout(true,"candidatos",true);
     </ol>
 
     <!-- Icon Cards-->
-    <div class="row">
+    <!--<div class="row">
         <div class="col-xl-3 col-sm-6 mb-3">
         <div class="card text-white bg-primary o-hidden h-100">
             <div class="card-body">
@@ -104,7 +104,7 @@ $layout = new layout(true,"candidatos",true);
             </a>
         </div>
         </div>
-    </div>
+    </div>-->
 
     <!--Formulario-->
     <div class="card mb-3">
