@@ -145,7 +145,7 @@ if(isset($_POST['nombre']) && isset($_POST['descripcion']) && isset($_FILES['log
                         <div class="custom-file">
                             <input name ="logo" type="logo" class="custom-file-input" id="foto"
                             aria-describedby="inputGroupFileAddon01" required>
-                            <label class="custom-file-label" for="logo">Escoja una lodo</label>
+                            <label class="custom-file-label" for="logo">Escoja una logo</label>
                         </div>
                     </div>
                 </div>

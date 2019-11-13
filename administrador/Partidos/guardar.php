@@ -1,13 +1,33 @@
 <?php 
+//include '../helpers/auth.php';
+include '../layout/layout.php';
+include '../../helpers/utilities.php';
+include '../../helpers/FileHandler/IFileHandler.php';
+include '../../helpers/FileHandler/JsonFileHandler.php';
+include '../../database/SADVContext.php';
+include 'Partido.php';
+include '../../database/repository/IRepository.php';
+include '../../database/repository/RepositoryBase.php';
+include '../../database/repository/RepositoryPartidos.php';
+include 'PartidoServices.php';
+//include '../PhpMailer/Exception.php';
+//include '../PhpMailer/PHPMailer.php';
+//include '../PhpMailer/SMTP.php';
+//include '../helpers/emailHandler.php';
 
-include "../layout/layout.php";
 
 $layout = new layout(true,"partidos",true);
+$utilities = new Utilities();
+$service = new PartidoService("../../database");
 
 // Validacion de POST
 
-if(isset($_POST['nombre']) && isset($_POST['descripcion']) && isset($_FILES['logo'])){
-
+if(isset($_POST['nombre']) && isset($_POST['descripcion'])){
+    $newEntity = new Partido();
+    $newEntity->InitializeData(0, $_POST['nombre'], $_POST['descripcion'],true);
+    $service->Add($newEntity);
+    header("Location: listaPartidos.php"); 
+        exit(); 
 }
 
 ?>
@@ -122,7 +142,7 @@ if(isset($_POST['nombre']) && isset($_POST['descripcion']) && isset($_FILES['log
 
         <!-- Formulario -->
 
-        <form class="needs-validation" type="POST" action= "guardar.php" enctype="multipart/form-data" novalidate>
+        <form class="needs-validation" method="POST" action= "guardar.php" enctype="multipart/form-data" novalidate>
             <div class="form-row">
                 <div class="col-md-5 mb-3">
                 <h6><label for="nombre" class="col-form-label-lg col-form-label">Nombre</label></h6>
@@ -143,9 +163,9 @@ if(isset($_POST['nombre']) && isset($_POST['descripcion']) && isset($_FILES['log
                         <span class="input-group-text" id="inputGroupFileAddon01"><i class="fa fa-file-image" aria-hidden="true"></i></span>
                     </div>
                     <div class="custom-file">
-                        <input name ="logo" type="logo" class="custom-file-input" id="foto"
+                        <input name ="logo" type="file" class="custom-file-input" id="foto"
                         aria-describedby="inputGroupFileAddon01" required>
-                        <label class="custom-file-label" for="logo">Escoja una lodo</label>
+                        <label class="custom-file-label" for="logo">Escoja una logo</label>
                     </div>
                 </div>
                 </div>
@@ -158,10 +178,8 @@ if(isset($_POST['nombre']) && isset($_POST['descripcion']) && isset($_FILES['log
                     <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroupPrepend"></span>
                     </div>
-                    <textarea type="text" class="form-control" name="descripcion" id="descripcion" placeholder="Descripcion del partido" aria-describedby="inputGroupPrepend" requiredcols="30" rows="10"></textarea>
-                    <div class="invalid-feedback">
-                    Digite un apellido valido
-                    </div>
+                    <textarea  class="form-control" name="descripcion" id="descripcion" placeholder="Descripcion del partido" aria-describedby="inputGroupPrepend" requiredcols="30" rows="10"></textarea>
+                   
                 </div>
                 </div>
             </div>
@@ -172,7 +190,7 @@ if(isset($_POST['nombre']) && isset($_POST['descripcion']) && isset($_FILES['log
 
 
 <script>
-// Example starter JavaScript for disabling form submissions if there are invalid fields
+/*// Example starter JavaScript for disabling form submissions if there are invalid fields
 (function() {
   'use strict';
   window.addEventListener('load', function() {
@@ -189,7 +207,7 @@ if(isset($_POST['nombre']) && isset($_POST['descripcion']) && isset($_FILES['log
       }, false);
     });
   }, false);
-})();
+})();*/
 </script>
         <!-- /Formulario -->
 

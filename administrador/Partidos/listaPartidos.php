@@ -1,8 +1,22 @@
 <?php 
 
-include "../layout/layout.php";
+//include '../helpers/auth.php';
+include '../layout/layout.php';
+include '../../helpers/utilities.php';
+include '../../helpers/FileHandler/IFileHandler.php';
+include '../../helpers/FileHandler/JsonFileHandler.php';
+include '../../database/SADVContext.php';
+include 'Partido.php';
+include '../../database/repository/IRepository.php';
+include '../../database/repository/RepositoryBase.php';
+include '../../database/repository/RepositoryPartidos.php';
+include 'PartidoServices.php';
 
 $layout = new layout(true,"partidos",true);
+$utilities = new Utilities();
+$service = new PartidoService("../../database");
+
+$listado = $service->GetAll();
 
 ?>
 
@@ -21,11 +35,15 @@ $layout = new layout(true,"partidos",true);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Partidos</title>
 </head>
 <body  id="page-top">
 <?php $layout->mostrarHeader();?>
+<?php if (empty($listado)) : ?>
 
+<h3>No hay Partido registrado, <a href="guardar.php" class="btn btn-primary my-2"><i class="fa fa-plus-square"></i> Agregar nuevo partido</a> </h3>
+
+<?php else : ?>
 <div id="content-wrapper">
 
     <div class="container-fluid">
@@ -135,14 +153,39 @@ $layout = new layout(true,"partidos",true);
                                 <thead>
                                     <tr role="row">
                                         <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Negocio: activate to sort column ascending" style="width: 50px;">ID</th>
-                                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Tipo Usuario: activate to sort column ascending" style="width: 150px;">Nombre</th>
-                                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Usuario: activate to sort column ascending" style="width:300px;">Descripcion</th>
-                                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Nombre: activate to sort column ascending" style="width: 64px;">Logo</th>
+                                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Tipo Usuario: activate to sort column ascending" style="width: 150px;">Logo</th>
+                                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Usuario: activate to sort column ascending" style="width:300px;">Nombre</th>
+                                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Nombre: activate to sort column ascending" style="width: 64px;">Descripcion</th>
                                         <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Correo: activate to sort column ascending" style="width: 40px;">Estado</th>
                                         <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label=": activate to sort column descending" style="width: 100px;" aria-sort="ascending"></th>
                                     </tr>
                                 </thead>
                                 <tbody> 
+                                <?php foreach ($listado as $partido) : ?>
+                                        <tr>
+                                            <th scope="col"><?php echo $partido->id ?></th>
+                                            <th scope="col"><img class="bd-placeholder-img card-img-top" src="<?php echo $partido->logo ?>"   alt=""></th>
+                                            <th scope="col"><?php echo $partido->nombre ?></th>
+                                            <th scope="col"><?php echo $partido->descripcion ?></th>
+                                            <th scope="col">
+                                                <div class="form-check">
+                                                    <?php if ($partido->estado) : ?>
+                                                        <input class="form-check-input form-control-lg" style="width:30px;margin-top: -24%;" disabled type="checkbox" checked id="defaultCheck1">
+                                                    <?php else : ?>
+                                                        <input class="form-check-input form-control-lg" style="width:30px;margin-top: -24%;" type="checkbox" id="defaultCheck1">
+                                                    <?php endif; ?>
+                                                </div>
+                                            </th>
+                                            <th scope="col">
+                                                <div class="btn-group">
+                                                    <a href="edit.php?id=<?php echo $partido->id ?>" class="btn text-white btn-sm btn-outline-secondary btn-warning"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar</a>
+                                                    <a href="#" data-id="<?php echo $partido->id ?>" class="btn text-white btn-sm btn-outline-secondary btn-danger delete-button"><i class="fa fa-trash-o" aria-hidden="true"></i> Eliminar</a>
+                                                </div>
+                                            </th>
+
+                                        </tr>
+
+                                    <?php endforeach; ?>
                                     <tr role="row" class="odd">
                                         <td class="">Financiera GPRS</td>
                                         <td class="">Administrador</td>
@@ -177,6 +220,8 @@ $layout = new layout(true,"partidos",true);
             </div>
         </div>
     </div>
+    <?php endif; ?>
+
 </div>
 <!-- /.container-fluid -->
 
