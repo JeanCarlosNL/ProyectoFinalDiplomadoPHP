@@ -1,5 +1,5 @@
 <?php 
-//include '../helpers/auth.php';
+include "../helpers/autorizado.php";
 include '../layout/layout.php';
 include '../../helpers/utilities.php';
 include '../../helpers/FileHandler/IFileHandler.php';
@@ -10,6 +10,7 @@ include '../../database/repository/IRepository.php';
 include '../../database/repository/RepositoryBase.php';
 include '../../database/repository/RepositoryPartidos.php';
 include 'PartidoServices.php'; 
+
 
 $service = new PartidoService("../../database");
 $containId = isset($_GET['id']); 

@@ -1,6 +1,6 @@
 <?php 
 
-//include '../helpers/auth.php';
+include "../helpers/autorizado.php";
 include '../layout/layout.php';
 include '../../helpers/utilities.php';
 include '../../helpers/FileHandler/IFileHandler.php';
@@ -56,6 +56,74 @@ $listado = $service->GetAll();
         <li class="breadcrumb-item active">Lista</li>
     </ol>
 
+    <!-- Icon Cards-->
+   <!-- <div class="row">
+        <div class="col-xl-3 col-sm-6 mb-3">
+        <div class="card text-white bg-primary o-hidden h-100">
+            <div class="card-body">
+            <div class="card-body-icon">
+                <i class="fas fa-fw fa-comments"></i>
+            </div>
+            <div class="mr-5">26 New Messages!</div>
+            </div>
+            <a class="card-footer text-white clearfix small z-1" href="#">
+            <span class="float-left">View Details</span>
+            <span class="float-right">
+                <i class="fas fa-angle-right"></i>
+            </span>
+            </a>
+        </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 mb-3">
+        <div class="card text-white bg-warning o-hidden h-100">
+            <div class="card-body">
+            <div class="card-body-icon">
+                <i class="fas fa-fw fa-list"></i>
+            </div>
+            <div class="mr-5">11 New Tasks!</div>
+            </div>
+            <a class="card-footer text-white clearfix small z-1" href="#">
+            <span class="float-left">View Details</span>
+            <span class="float-right">
+                <i class="fas fa-angle-right"></i>
+            </span>
+            </a>
+        </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 mb-3">
+        <div class="card text-white bg-success o-hidden h-100">
+            <div class="card-body">
+            <div class="card-body-icon">
+                <i class="fas fa-fw fa-shopping-cart"></i>
+            </div>
+            <div class="mr-5">123 New Orders!</div>
+            </div>
+            <a class="card-footer text-white clearfix small z-1" href="#">
+            <span class="float-left">View Details</span>
+            <span class="float-right">
+                <i class="fas fa-angle-right"></i>
+            </span>
+            </a>
+        </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 mb-3">
+        <div class="card text-white bg-danger o-hidden h-100">
+            <div class="card-body">
+            <div class="card-body-icon">
+                <i class="fas fa-fw fa-life-ring"></i>
+            </div>
+            <div class="mr-5">13 New Tickets!</div>
+            </div>
+            <a class="card-footer text-white clearfix small z-1" href="#">
+            <span class="float-left">View Details</span>
+            <span class="float-right">
+                <i class="fas fa-angle-right"></i>
+            </span>
+            </a>
+        </div>
+        </div>
+    </div>-->
+
     <!--Tabla-->
     <div class="card mb-3">
         <div class="card-header">
@@ -67,7 +135,15 @@ $listado = $service->GetAll();
             <div class="table-responsive" id="rUsers">
                 <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
                     <div class="row">
-
+                        <div class="col-sm-12 col-md-6">
+                            <div class="dataTables_length" id="DataTables_Table_0_length">
+                                <label>Mostrar
+                                <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="custom-select custom-select-sm form-control form-control-sm">
+                                    <option value="10">10</option><option value="25">25</option>
+                                    <option value="50">50</option><option value="100">100</option>
+                                </select> entradas
+                                </label>
+                            </div>
                         </div>
                     </div>
 
@@ -81,16 +157,16 @@ $listado = $service->GetAll();
                                         <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Usuario: activate to sort column ascending" style="width:300px;">Nombre</th>
                                         <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Nombre: activate to sort column ascending" style="width: 64px;">Descripcion</th>
                                         <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Correo: activate to sort column ascending" style="width: 40px;">Estado</th>
-                                        <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label=": activate to sort column descending" style="width: 100px;" aria-sort="ascending">Opciones  </th>
+                                        <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label=": activate to sort column descending" style="width: 100px;" aria-sort="ascending"></th>
                                     </tr>
                                 </thead>
                                 <tbody> 
                                 <?php foreach ($listado as $partido) : ?>
                                         <tr>
-                                            <th scope="col"><?php echo $partido->id; ?></th>
-                                            <th scope="col"><img class="bd-placeholder-img card-img-top" src="<?php echo $partido->logo ?>" height="100px"  alt=""></th>
-                                            <th scope="col"><?php echo $partido->nombre; ?></th>
-                                            <th scope="col"><?php echo $partido->descripcion; ?></th>
+                                            <th scope="col"><?php echo $partido->id ?></th>
+                                            <th scope="col"><img class="bd-placeholder-img card-img-top" src="<?php echo $partido->logo ?>"   alt=""></th>
+                                            <th scope="col"><?php echo $partido->nombre ?></th>
+                                            <th scope="col"><?php echo $partido->descripcion ?></th>
                                             <th scope="col">
                                                 <div class="form-check">
                                                     <?php if ($partido->estado) : ?>
@@ -102,14 +178,25 @@ $listado = $service->GetAll();
                                             </th>
                                             <th scope="col">
                                                 <div class="btn-group">
-                                                    <a href="editar.php?id=<?php echo $partido->id; ?>" class="btn text-white btn-sm btn-outline-secondary btn-warning"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar</a>
-                                                    <a href="eliminar.php?id=<?php echo $partido->id; ?>" class="btn text-white btn-sm btn-outline-secondary btn-danger delete-button"><i class="fa fa-trash-o" aria-hidden="true"></i> Eliminar</a>
+                                                    <a href="edit.php?id=<?php echo $partido->id ?>" class="btn text-white btn-sm btn-outline-secondary btn-warning"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar</a>
+                                                    <a href="#" data-id="<?php echo $partido->id ?>" class="btn text-white btn-sm btn-outline-secondary btn-danger delete-button"><i class="fa fa-trash-o" aria-hidden="true"></i> Eliminar</a>
                                                 </div>
                                             </th>
 
                                         </tr>
 
                                     <?php endforeach; ?>
+                                    <tr role="row" class="odd">
+                                        <td class="">Financiera GPRS</td>
+                                        <td class="">Administrador</td>
+                                        <td class="">Jack</td>
+                                        <td class="">Jose Emmanuel Perez</td>
+                                        <td>jack210030@gmail.com</td>
+                                        <td style="align:center" class="sorting_1">
+                                            <a href="editar.php"><button  type="button" class="btn btn-primary btn-circle"><i class="material-icons">Editar</i></button></a>
+                                            <a href="eliminar.php"><button  id="delete-user" name="delete-user" type="button" class="btn btn-danger btn-circle"><i class="material-icons">Eliminar</i></button></a>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -140,16 +227,4 @@ $listado = $service->GetAll();
 
 <?php $layout->mostrarFooter();?>
 </body>
-<script>
- $(document).ready(function() {
-          
-          $(".delete-button").on("click",function(){
-            if(confirm("Esta seguro que deseas borrar este usuario ?")){
-                window.location = "delete.php?id="+$(this).data("id");
-            }
-          });
-          //
-        });
-
-            </script>
 </html>

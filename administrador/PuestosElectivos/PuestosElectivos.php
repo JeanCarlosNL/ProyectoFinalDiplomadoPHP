@@ -1,4 +1,7 @@
 <?php
+
+include "../helpers/autorizado.php";
+
 class PuestoElectivo{
     public $id;
     public $nombre;

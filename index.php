@@ -1,3 +1,24 @@
+<?php 
+
+session_start();
+
+if(isset($_POST["documentoIdentidad"])){
+    $_SESSION['Votante']="soy votante";
+   header("location:votante/dashboard.php");
+   exit();
+}
+
+$mensaje="";
+if(isset($_SESSION['mensajeAutorizacion'])){
+   $mensaje=$_SESSION["mensajeAutorizacion"];
+}
+$_SESSION['mensajeAutorizacion'] = "";
+
+
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,6 +42,8 @@
     <title>Inicio Ciudadano</title>
 </head>
 <body>
+<?php if($mensaje=="No tiene permizo para acceder"){echo "<script type='text/javascript'>alert('No tiene permitido acceder');</script>";}?>
+
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
         <div class="container">
         <a class="navbar-brand js-scroll-trigger" href="#page-top"><i class="fa fa-id-card" aria-hidden="true"></i>  Sistema de Votacion</a>
@@ -42,11 +65,11 @@
             <div id="login-row" class="row justify-content-center align-items-center">
                 <div id="login-column" class="col-md-6">
                     <div id="login-box" class="col-md-12">
-                        <form id="login-form" class="form" action="votante/dashboard.php" method="post">
+                        <form id="login-form" class="form needs-validation" action="index.php" method="post" novalidate>
                             <h3 class="text-center text-info">Inicio</h3>
                             <div class="form-group">
                                 <label for="cedula" class="text-info">Documento de identidad</label><br>
-                                <input type="text" name="cedula" id="cedula" class="form-control" required>
+                                <input type="text" name="documentoIdentidad" id="cedula" class="form-control" required>
                                 <small style="color:gray;">Coloque su numero de cedula sin guiones</small>
                             </div>
                             <br>
@@ -54,6 +77,26 @@
                                 <input type="submit" name="submit" class="btn btn-info btn-md" value="Ingresar">
                             </div>
                         </form>
+                        <script>
+                            // Example starter JavaScript for disabling form submissions if there are invalid fields
+                            (function() {
+                            'use strict';
+                            window.addEventListener('load', function() {
+                                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                                var forms = document.getElementsByClassName('needs-validation');
+                                // Loop over them and prevent submission
+                                var validation = Array.prototype.filter.call(forms, function(form) {
+                                form.addEventListener('submit', function(event) {
+                                    if (form.checkValidity() === false) {
+                                    event.preventDefault();
+                                    event.stopPropagation();
+                                    }
+                                    form.classList.add('was-validated');
+                                }, false);
+                                });
+                            }, false);
+                            })();
+                        </script>
                     </div>
                 </div>
             </div>

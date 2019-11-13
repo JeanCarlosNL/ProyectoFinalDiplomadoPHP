@@ -1,10 +1,9 @@
-
 <?php
 
-include "helpers/autorizado.php";
-include "layout/layout.php";
+include "../helpers/autorizado.php";
+include "../layout/layout.php";
 
-$layout = new layout(false,false);
+$layout = new layout(true,true);
 
 
 
@@ -25,7 +24,7 @@ $layout = new layout(false,false);
                     </button>
                     <div class="collapse navbar-collapse" id="navbarResponsive">
                       <h1 class="display-6 text-center">
-                                <span class = "font-weight fuente_titulo" style="margin-left: 90px; color: white">Escoge un proceso de votacion</span>
+                                <span class = "font-weight fuente_titulo" style="margin-left: 90px; color: white">Usted esta votando por DIPUTADOS</span>
                             </h1>
                     </div>
                   </div>
@@ -37,43 +36,43 @@ $layout = new layout(false,false);
                   <!-- Cards -->
                   <div class="col-sm-3" >
                       <div class="card">
-                          <a href="votaciones/presidentes.php"><img src="http://aytomengibar.com/wp-content/uploads/2019/04/generica-votaciones-votar-elecciones-democracia-745x450.jpg"
+                          <a href="candidatos/presidentes.php"><img src="http://aytomengibar.com/wp-content/uploads/2019/04/generica-votaciones-votar-elecciones-democracia-745x450.jpg"
                               class="card-img-top" alt="..."></a>
                           <div class="card-body">
-                              <h5 class="card-title fuente_cuerpo">Votaciones Presidenciales</h5>
-                              <a href="votaciones/presidentes.php" class="card-link">Votar</a>
+                              <h5 class="card-title fuente_cuerpo">Nombre del candidato</h5>
+                              <a href="desarrollador_software.html" class="card-link">Partido</a>
+                          </div>
+                      </div>
+                  </div> 
+      
+                  <div class="col-sm-3" >
+                      <div class="card">
+                          <a href="candidatos/alcaldes.php"><img src="http://aytomengibar.com/wp-content/uploads/2019/04/generica-votaciones-votar-elecciones-democracia-745x450.jpg"
+                              class="card-img-top" alt="..."></a>
+                          <div class="card-body">
+                              <h5 class="card-title fuente_cuerpo">Nombre del candidato</h5>
+                              <a href="desarrollador_software.html" class="card-link">Partido</a>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-sm-3" >
+                      <div class="card">
+                          <a href="candidatos/senadores.php"><img src="http://aytomengibar.com/wp-content/uploads/2019/04/generica-votaciones-votar-elecciones-democracia-745x450.jpg"
+                              class="card-img-top" alt="..."></a>
+                          <div class="card-body">
+                              <h5 class="card-title fuente_cuerpo">Nombre del candidato</h5>
+                              <a href="desarrollador_software.html" class="card-link">Partido</a>
                           </div>
                       </div>
                   </div>
       
                   <div class="col-sm-3" >
                       <div class="card">
-                          <a href="votaciones/alcaldes.php"><img src="http://aytomengibar.com/wp-content/uploads/2019/04/generica-votaciones-votar-elecciones-democracia-745x450.jpg"
+                          <a href="candidatos/diputados.php"><img src="http://aytomengibar.com/wp-content/uploads/2019/04/generica-votaciones-votar-elecciones-democracia-745x450.jpg"
                               class="card-img-top" alt="..."></a>
                           <div class="card-body">
-                              <h5 class="card-title fuente_cuerpo">Votaciones<br>Alcaldes</h5>
-                              <a href="votaciones/alcaldes.php" class="card-link">Votar</a>
-                          </div>
-                      </div>
-                  </div>
-                  <div class="col-sm-3" >
-                      <div class="card">
-                          <a href="votaciones/senadores.php"><img src="http://aytomengibar.com/wp-content/uploads/2019/04/generica-votaciones-votar-elecciones-democracia-745x450.jpg"
-                              class="card-img-top" alt="..."></a>
-                          <div class="card-body">
-                              <h5 class="card-title fuente_cuerpo">Votaciones Senadores</h5>
-                              <a href="votaciones/senadores.php" class="card-link">Votar</a>
-                          </div>
-                      </div>
-                  </div>
-      
-                  <div class="col-sm-3" >
-                      <div class="card">
-                          <a href="votaciones/diputados.php"><img src="http://aytomengibar.com/wp-content/uploads/2019/04/generica-votaciones-votar-elecciones-democracia-745x450.jpg"
-                              class="card-img-top" alt="..."></a>
-                          <div class="card-body">
-                              <h5 class="card-title fuente_cuerpo">Votaciones Diputados</h5>
-                              <a href="votaciones/diputados.php" class="card-link">Votar</a>
+                              <h5 class="card-title fuente_cuerpo">Nombre del candidato</h5>
+                              <a href="desarrollador_software.html" class="card-link">Partido</a>
                           </div>
                       </div>
                   </div>
@@ -86,7 +85,6 @@ $layout = new layout(false,false);
     </div>
   </div>
 </div>
-
 
 <?php $layout->mostrarFooter();?>
 

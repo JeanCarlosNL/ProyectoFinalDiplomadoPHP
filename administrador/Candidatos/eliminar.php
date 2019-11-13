@@ -1,1 +1,5 @@
-<?php echo "Soy eliminar Candidatos";
+<?php 
+include "../helpers/autorizado.php";
+
+
+echo "Soy eliminar Candidatos";
