@@ -1,5 +1,6 @@
 <?php 
 
+include "../helpers/autorizado.php";
 include '../layout/layout.php';
 include '../../helpers/utilities.php';
 include '../../helpers/FileHandler/IFileHandler.php';
@@ -10,8 +11,6 @@ include '../../database/repository/IRepository.php';
 include '../../database/repository/RepositoryBase.php';
 include '../../database/repository/RepositoryPuestosE.php';
 include 'PuestosService.php';
-include "../helpers/autorizado.php";
-include "../layout/layout.php";
 
 $layout = new layout(true,"puestos",true);
 $utilities = new Utilities();
