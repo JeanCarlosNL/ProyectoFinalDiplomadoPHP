@@ -4,11 +4,17 @@ include "../layout/layout.php";
 
 $layout = new layout(true,"elecciones",true);
 
+if(isset($_POST['nombre']) && isset($_POST['fecha'])){
+
+
+}
+
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
   <!-- Custom fonts for this template-->
     <link href="../../styles/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 
@@ -17,6 +23,8 @@ $layout = new layout(true,"elecciones",true);
 
     <!-- Custom styles for this template-->
     <link href="../../styles/css/sb-admin.css" rel="stylesheet">
+
+    
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -186,12 +194,14 @@ $layout = new layout(true,"elecciones",true);
         <form>
           <div class="form-group">
             <label for="recipient-name" class="col-form-label">Nombre de la eleccion</label>
-            <input type="text" class="form-control" id="recipient-name">
+            <input type="text" name="nombre" class="form-control" id="recipient-name">
           </div>
+
           <div class="form-group">
-            <label for="message-text" class="col-form-label">Fecha</label>
-            <textarea class="form-control" id="message-text"></textarea>
+            <label for="recipient-name" class="col-form-label">Fecha de la eleccion</label>
+            <input type="date" name ="fecha" class="form-control" id="recipient-name">
           </div>
+
         </form>
         <button type="button" class="btn btn-primary">Guardar</button>
 
@@ -207,5 +217,6 @@ $layout = new layout(true,"elecciones",true);
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
 </body>
 </html>

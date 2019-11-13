@@ -189,13 +189,13 @@ class layout
       </li>
       <li class="nav-item {$this->esCandidatos()}">
         <a class="nav-link" href="{$this->directory}Candidatos/listaCandidatos.php">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
+        <i class="fa fa-users" aria-hidden="true"></i>
           <span>Candidatos</span>
         </a>
       </li>
       <li class="nav-item {$this->esPartidos()}">
         <a class="nav-link" href="{$this->directory}Partidos/listaPartidos.php">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
+        <i class="fa fa-university" aria-hidden="true"></i>
           <span>Partidos</span>
         </a>
       </li>
@@ -206,7 +206,7 @@ class layout
       </li>
       <li class="nav-item {$this->esCiudadanos()}">
         <a class="nav-link" href="{$this->directory}Ciudadanos/listaCiudadanos.php">
-          <i class="fas fa-fw fa-table"></i>
+        <i class="fa fa-user" aria-hidden="true"></i>
           <span>Ciudadanos</span></a>
       </li>
       <li class="nav-item {$this->esElecciones()}">
