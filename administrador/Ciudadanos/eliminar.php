@@ -1,0 +1,1 @@
+<?php echo "Soy eliminar ciudadanos";

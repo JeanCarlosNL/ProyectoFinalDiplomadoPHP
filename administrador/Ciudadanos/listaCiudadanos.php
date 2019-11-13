@@ -110,7 +110,7 @@ $layout = new layout(true,"ciudadanos",true);
     <div class="card mb-3">
         <div class="card-header">
         <i class="fas fa-user-cog"></i> Listado de Ciudadanos       
-            <a href="guardarCiudadanos.php"><button type="button" style="float: right;" class="btn btn-primary" data-target="#User" onclick="newCbUser('5')">Nueva</button></a>
+            <a href="guardar.php"><button type="button" style="float: right;" class="btn btn-primary" data-target="#User" onclick="newCbUser('5')">Nueva</button></a>
             <!--button type="button" style="float: right;" class="btn btn-primary" data-toggle="modal" data-target="#User" onclick="newCbUser('5')">Nuevo</button-->
         </div>
 
@@ -153,8 +153,8 @@ $layout = new layout(true,"ciudadanos",true);
                                         <td>jack210030@gmail.com</td>
                                         <td>2019-06-03</td>
                                         <td style="align:center" class="sorting_1">
-                                            <button type="button" class="btn btn-primary btn-circle"><i class="material-icons">Editar</i></button>
-                                            <button id="delete-user" name="delete-user" type="button" class="btn btn-danger btn-circle"><i class="material-icons">Eliminar</i></button>
+                                            <a href="editar.php"><button  type="button" class="btn btn-primary btn-circle"><i class="material-icons">Editar</i></button></a>
+                                            <a href="eliminar.php"><button  id="delete-user" name="delete-user" type="button" class="btn btn-danger btn-circle"><i class="material-icons">Eliminar</i></button></a>
                                         </td>
                                     </tr>
                                 </tbody>

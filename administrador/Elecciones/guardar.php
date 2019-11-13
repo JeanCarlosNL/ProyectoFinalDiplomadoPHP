@@ -39,7 +39,7 @@ $layout = new layout(true,"elecciones",true);
     </ol>
 
     <!-- Icon Cards-->
-   <!-- <div class="row">
+    <!--<div class="row">
         <div class="col-xl-3 col-sm-6 mb-3">
         <div class="card text-white bg-primary o-hidden h-100">
             <div class="card-body">
@@ -106,12 +106,14 @@ $layout = new layout(true,"elecciones",true);
         </div>
     </div>-->
 
-    <!--Tabla-->
+    <!--Formulario-->
     <div class="card mb-3">
         <div class="card-header">
-        <i class="fas fa-user-cog"></i> Listado de Elecciones        
-            <button type="button" style="float: right;" class="btn btn-primary" data-toggle="modal" data-target="#modal">Nueva eleccion</button>
+        <i class="fas fa-user-cog"></i> Formulario de Elecciones        
+            <a href="guardarElecciones.php"><button type="button" style="float: right;" class="btn btn-primary" data-target="#User" onclick="newCbUser('5')">Nueva</button></a>
+            <!--button type="button" style="float: right;" class="btn btn-primary" data-toggle="modal" data-target="#User" onclick="newCbUser('5')">Nuevo</button-->
         </div>
+
         <div class="card-body">
             <div class="table-responsive" id="rUsers">
                 <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
@@ -127,15 +129,18 @@ $layout = new layout(true,"elecciones",true);
                             </div>
                         </div>
                     </div>
+
                     <div class="row">
                         <div class="col-sm-12">
                             <table class="table table-bordered datatable dataTable no-footer" width="100%" cellspacing="0" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="width: 100%;">
                                 <thead>
                                     <tr role="row">
-                                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Negocio: activate to sort column ascending" style="width: 64px;">ID</th>
-                                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Tipo Usuario: activate to sort column ascending" style="width: 84px;">Nombre</th>
-                                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Usuario: activate to sort column ascending" style="width: 59px;">Fecha de Realizacion</th>
-                                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Nombre: activate to sort column ascending" style="width: 64px;">Estado</th>
+                                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Negocio: activate to sort column ascending" style="width: 64px;">Negocio</th>
+                                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Tipo Usuario: activate to sort column ascending" style="width: 84px;">Tipo Usuario</th>
+                                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Usuario: activate to sort column ascending" style="width: 59px;">Usuario</th>
+                                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Nombre: activate to sort column ascending" style="width: 64px;">Nombre</th>
+                                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Correo: activate to sort column ascending" style="width: 151px;">Correo</th>
+                                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Fecha Creacion: activate to sort column ascending" style="width: 67px;">Fecha Creacion</th>
                                         <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label=": activate to sort column descending" style="width: 26px;" aria-sort="ascending"></th>
                                     </tr>
                                 </thead>
@@ -145,9 +150,11 @@ $layout = new layout(true,"elecciones",true);
                                         <td class="">Administrador</td>
                                         <td class="">Jack</td>
                                         <td class="">Jose Emmanuel Perez</td>
+                                        <td>jack210030@gmail.com</td>
+                                        <td>2019-06-03</td>
                                         <td style="align:center" class="sorting_1">
-                                            <a href="resultados.php"><button  type="button" class="btn btn-primary btn-circle"><i class="material-icons">Ver Resultados</i></button></a>
-                                            <a href="eliminar.php"><button  id="delete-user" name="delete-user" type="button" class="btn btn-danger btn-circle"><i class="material-icons">Finalizar</i></button></a>
+                                            <button type="button" class="btn btn-primary btn-circle"><i class="material-icons">Editar</i></button>
+                                            <button id="delete-user" name="delete-user" type="button" class="btn btn-danger btn-circle"><i class="material-icons">Eliminar</i></button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -174,38 +181,8 @@ $layout = new layout(true,"elecciones",true);
         </div>
     </div>
 </div>
-
-<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Nueva Elecion</h5>
-      </div>
-      <div class="modal-body">
-
-        <form>
-          <div class="form-group">
-            <label for="recipient-name" class="col-form-label">Nombre de la eleccion</label>
-            <input type="text" class="form-control" id="recipient-name">
-          </div>
-          <div class="form-group">
-            <label for="message-text" class="col-form-label">Fecha</label>
-            <textarea class="form-control" id="message-text"></textarea>
-          </div>
-        </form>
-        <button type="button" class="btn btn-primary">Guardar</button>
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-      </div>
-    </div>
-  </div>
 <!-- /.container-fluid -->
 
 <?php $layout->mostrarFooter();?>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 </html>
