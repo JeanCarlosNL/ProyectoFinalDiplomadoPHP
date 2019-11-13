@@ -88,9 +88,9 @@ $listado = $service->GetAll();
                                             <th scope="col">
                                                 <div class="form-check">
                                                     <?php if ($puestos->estado) : ?>
-                                                        <input class="form-check-input form-control-lg" style="width:30px;margin-top: -24%;" disabled type="checkbox" checked id="defaultCheck1">
+                                                        <input class="form-check-input form-control-lg" style="width:30px;margin-top: -3%;" disabled type="checkbox" checked id="defaultCheck1">
                                                     <?php else : ?>
-                                                        <input class="form-check-input form-control-lg" style="width:30px;margin-top: -24%;" type="checkbox" id="defaultCheck1">
+                                                        <input class="form-check-input form-control-lg" style="width:30px;margin-top: -3%;" type="checkbox" id="defaultCheck1">
                                                     <?php endif; ?>
                                                 </div>
                                             </th>

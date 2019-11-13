@@ -86,15 +86,14 @@ $listado = $service->GetAll();
                                 <tbody> 
                                 <?php foreach ($listado as $partido) : ?>
                                         <tr>
-                                            <th scope="col"><img class="bd-placeholder-img card-img-top" src="<?php echo $partido->logo ?>" height="100px"  alt=""></th>
                                             <th scope="col"><?php echo $partido->nombre; ?></th>
                                             <th scope="col"><?php echo $partido->descripcion; ?></th>
                                             <th scope="col">
                                                 <div class="form-check">
                                                     <?php if ($partido->estado) : ?>
-                                                        <input class="form-check-input form-control-lg" style="width:30px;margin-top: -24%;" disabled type="checkbox" checked id="defaultCheck1">
+                                                        <input class="form-check-input form-control-lg" style="width:30px;margin-top: -3%;" disabled type="checkbox" checked id="defaultCheck1">
                                                     <?php else : ?>
-                                                        <input class="form-check-input form-control-lg" style="width:30px;margin-top: -24%;" type="checkbox" id="defaultCheck1">
+                                                        <input class="form-check-input form-control-lg" style="width:30px;margin-top: -3%;" type="checkbox" id="defaultCheck1">
                                                     <?php endif; ?>
                                                 </div>
                                             </th>
