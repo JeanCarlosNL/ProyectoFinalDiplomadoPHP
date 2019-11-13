@@ -1,15 +1,39 @@
 <?php 
-
+//include '../helpers/auth.php';
 include "../layout/layout.php";
-include "../helpers/autorizado.php";
+include '../../helpers/utilities.php';
+include '../../helpers/FileHandler/IFileHandler.php';
+include '../../helpers/FileHandler/JsonFileHandler.php';
+include '../../database/SADVContext.php';
+include 'Ciudadano.php';
+include '../../database/repository/IRepository.php';
+include '../../database/repository/RepositoryBase.php';
+include '../../database/repository/RepositoryCiudadano.php';
+include 'CiudadanoService.php';
 
 $layout = new layout(true,"ciudadanos",true);
+$utilities = new Utilities();
+$service = new CiudadanoService("../../database");
 
+$containId = isset($_GET['documentoIdentidad']);
+$element = null;
+if ($containId) {
+    $id = $_GET['documentoIdentidad'];
+    $element = $service->GetById($id);
+$selectedActivo=($element->estado == "1") ? "checked" : ""; 
+$selectedInactivo=($element->estado == "0") ? "checked" : ""; 
+}
 // Validacion de POST
 
 if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['email']) && isset($_POST['documentoIdentidad']) && isset($_POST['estado'])){
 
-}
+    $updateEntity = new Partido();
+    $updateEntity->InitializeData($_POST['documentoIdentidad'], $_POST['nombre'],$_POST['apellido'],$_POST['email'], $_POST['estado']);
+    $service->Update($id, $updateEntity);
+    header("Location: listaCiudadanos.php");
+   exit();
+
+} else 
 
 ?>
 

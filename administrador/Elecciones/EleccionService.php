@@ -1,7 +1,4 @@
 <?php
-include "../helpers/autorizado.php";
-
-
 class EleccionService
 {
     public $context;

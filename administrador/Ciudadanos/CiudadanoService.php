@@ -1,6 +1,4 @@
 <?php
-include "../helpers/autorizado.php";
-
 class CiudadanoService
 {
     public $context;

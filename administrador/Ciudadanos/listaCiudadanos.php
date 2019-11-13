@@ -1,10 +1,21 @@
 <?php 
 
 include "../layout/layout.php";
-include "../helpers/autorizado.php";
+include '../../helpers/utilities.php';
+include '../../helpers/FileHandler/IFileHandler.php';
+include '../../helpers/FileHandler/JsonFileHandler.php';
+include '../../database/SADVContext.php';
+include 'Ciudadano.php';
+include '../../database/repository/IRepository.php';
+include '../../database/repository/RepositoryBase.php';
+include '../../database/repository/RepositoryCiudadano.php';
+include 'CiudadanoService.php';
 
 $layout = new layout(true,"ciudadanos",true);
+$utilities = new Utilities();
+$service = new CiudadanoService("../../database");
 
+$listado = $service->GetAll();
 ?>
 
 <!DOCTYPE html>

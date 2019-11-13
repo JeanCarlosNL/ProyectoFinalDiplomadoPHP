@@ -1,5 +1,4 @@
 <?php
-
 class Partido{
     public $id;
     public $nombre;
@@ -7,8 +6,8 @@ class Partido{
     public $logo;
     public $estado;
 
-    public function InitializeData($Id,$nombre,$descripcion,$estado){
-        $this->id = $Id;
+    public function InitializeData($id,$nombre,$descripcion,$estado){
+        $this->id = $id;
         $this->nombre = $nombre;
         $this->descripcion = $descripcion;
         $this->estado = $estado;
