@@ -1,5 +1,5 @@
 <?php 
-//include '../helpers/auth.php';
+include "../helpers/autorizado.php";
 include '../layout/layout.php';
 include '../../helpers/utilities.php';
 include '../../helpers/FileHandler/IFileHandler.php';
