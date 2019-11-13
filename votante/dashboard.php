@@ -3,7 +3,7 @@
 include "helpers/autorizado.php";
 include "layout/layout.php";
 
-?>
+
 $layout = new layout(false,false);
 
 
