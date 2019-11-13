@@ -1,4 +1,5 @@
 <?php
+
 class Partido{
     public $id;
     public $nombre;

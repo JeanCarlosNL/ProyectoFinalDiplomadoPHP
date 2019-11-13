@@ -1,4 +1,6 @@
 <?php
+include "../helpers/autorizado.php";
+
 class Eleccion{
     public $id;
     public $nombre;

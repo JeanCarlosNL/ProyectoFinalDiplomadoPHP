@@ -1,6 +1,8 @@
 <?php 
 
+include "../helpers/autorizado.php";
 include "../layout/layout.php";
+
 
 $layout = new layout(true,"candidatos",true);
 

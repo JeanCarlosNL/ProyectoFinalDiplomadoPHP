@@ -1,0 +1,18 @@
+/*!
+ * Start Bootstrap - Heroic Features (https://startbootstrap.com/template-overviews/heroic-features)
+ * Copyright 2013-2019 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-heroic-features/blob/master/LICENSE)
+ */
+body {
+  padding-top: 56px;
+}
+.esto{
+	background-image: url("../img/jumbotron_bg.jpg");
+	background-size: cover;
+}
+.fuente_titulo{
+	font-family: 'Roboto', sans-serif;
+}
+.fuente_cuerpo{
+	font-family: 'Montserrat', sans-serif;
+}

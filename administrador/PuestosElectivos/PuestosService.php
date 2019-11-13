@@ -1,4 +1,7 @@
 <?php
+
+include "../helpers/autorizado.php";
+
 class PuestoElectivoService
 {
     public $context;

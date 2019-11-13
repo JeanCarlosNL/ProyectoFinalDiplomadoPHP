@@ -153,15 +153,14 @@ class RepositoryBase implements IRepository
             array_push($params, $field);
         } else {
             $sq = "UPDATE $table SET $setString WHERE Id = ?";
-            $typeParam = $this->BindParam($entity->id);
+            $typeParam = $this->BindParam($entity->Id);
             $params[0] = $params[0] . $typeParam;
-            array_push($params, $entity->id);
+            array_push($params, $entity->Id);
         }
         $stmt = $this->db->prepare($sq);
         $bindParams = array();
         foreach ($params as $key => $value) $bindParams[$key] = &$params[$key];
         call_user_func_array(array($stmt, 'bind_param'), $bindParams);
-        var_dump($sq    );
         $stmt->execute();
         $stmt->close();
     }
@@ -183,7 +182,7 @@ class RepositoryBase implements IRepository
         $entity =  $this->MakeSafeEntity($entity);
         $table = get_class($entity);
         if ($field == null) {
-            $field = "id";
+            $field = "Id";
         }
         if ($fieldStatus == null) {
             $fieldStatus = "Status";
