@@ -1,13 +1,27 @@
 <?php 
 
 include "../layout/layout.php";
+include '../../helpers/utilities.php';
+include '../../helpers/FileHandler/IFileHandler.php';
+include '../../helpers/FileHandler/JsonFileHandler.php';
+include '../../database/SADVContext.php';
+include 'Ciudadano.php';
+include '../../database/repository/IRepository.php';
+include '../../database/repository/RepositoryBase.php';
+include '../../database/repository/RepositoryCiudadano.php';
+include 'CiudadanoService.php';
 
 $layout = new layout(true,"ciudadanos",true);
-
+$utilities = new Utilities();
+$service = new CiudadanoService("../../database");
 // Validacion de POST
 
 if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['email']) && isset($_POST['documentoIdentidad'])){
-
+    $newEntity = new Ciudadano();
+    $newEntity->InitializeData(isset(0, $_POST['nombre'], $_POST['apellido'],$_POST['email'],$_POST['documentoIdentidad'],true);
+    $service->Add($newEntity);
+    header("Location: listaCiudadano.php"); 
+    exit(); 
 }
 
 ?>

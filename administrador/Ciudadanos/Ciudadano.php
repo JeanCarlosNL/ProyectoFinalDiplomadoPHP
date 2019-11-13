@@ -6,8 +6,8 @@ class Ciudadano{
     public $email;
     public $estado;
 
-    public function InitializeData($Id,$nombre,$apellido,$email,$estado){
-        $this->documentoIdentidad = $Id;
+    public function InitializeData($documentoIdentidad,$nombre,$apellido,$email,$estado){
+        $this->documentoIdentidad = $documentoIdentidad;
         $this->nombre = $nombre;
         $this->apellido = $apellido;
         $this->email = $email;
