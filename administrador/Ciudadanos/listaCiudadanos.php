@@ -97,8 +97,8 @@ $listado = $service->GetAll();
                                             </th>
                                             <th scope="col">
                                                 <div class="btn-group">
-                                                    <a href="editar.php?id=<?php echo $ciudadano->documentoIdentidad; ?>" class="btn text-white btn-sm btn-outline-secondary btn-warning"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar</a>
-                                                    <a href="eliminar.php?id=<?php echo $ciudadano->documentoIdentidad; ?>" class="btn text-white btn-sm btn-outline-secondary btn-danger delete-button"><i class="fa fa-trash-o" aria-hidden="true"></i> Eliminar</a>
+                                                    <a href="editar.php?id=<?php echo $ciudadano->id; ?>" class="btn text-white btn-sm btn-outline-secondary btn-warning"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar</a>
+                                                    <a href="eliminar.php?id=<?php echo $ciudadano->id; ?>" class="btn text-white btn-sm btn-outline-secondary btn-danger delete-button"><i class="fa fa-trash-o" aria-hidden="true"></i> Eliminar</a>
                                                 </div>
                                             </th>
 
@@ -124,4 +124,16 @@ $listado = $service->GetAll();
 
 <?php $layout->mostrarFooter();?>
 </body>
+<script>
+ $(document).ready(function() {
+          
+          $(".delete-button").on("click",function(){
+            if(confirm("Esta seguro que deseas borrar este ciudadano ?")){
+                window.location = "delete.php?id="+$(this).data("id");
+            }
+          });
+          //
+        });
+
+            </script>
 </html>

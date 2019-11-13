@@ -15,21 +15,21 @@ $layout = new layout(true,"ciudadanos",true);
 $utilities = new Utilities();
 $service = new CiudadanoService("../../database");
 
-$containId = isset($_GET['documentoIdentidad']);
+$containId = isset($_GET['id']);
 $element = null;
 if ($containId) {
-    $id = $_GET['documentoIdentidad'];
+    $id = $_GET['id'];
     $element = $service->GetById($id);
-$selectedActivo=($element->estado == "1") ? "checked" : ""; 
-$selectedInactivo=($element->estado == "0") ? "checked" : ""; 
+    $selectedActivo=($element->estado == "1") ? "selected" : ""; 
+    $selectedInactivo=($element->estado == "0") ? "selected" : ""; 
 }
 // Validacion de POST
 
 if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['email']) && isset($_POST['documentoIdentidad']) && isset($_POST['estado'])){
 
     $updateEntity = new Ciudadano();
-    $updateEntity->InitializeData($_POST['documentoIdentidad'], $_POST['nombre'],$_POST['apellido'],$_POST['email'], $_POST['estado']);
-    $service->Update($$updateEntity);
+    $updateEntity->InitializeData($id,$_POST['documentoIdentidad'], $_POST['nombre'],$_POST['apellido'],$_POST['email'], $_POST['estado']);
+    $service->Update($updateEntity);
     header("Location: listaCiudadanos.php");
    exit();
 
@@ -68,18 +68,19 @@ if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['email']
         </li>
         <li class="breadcrumb-item active">Editar</li>
     </ol>
+    <?php if ($containId && $element != null) : ?>
 
     <!--Formulario-->
     <div class="card mb-3">
         <div class="card-header">
-        <i class="fas fa-user-cog"></i> Edicion del Ciudadano <?= "*Nombre del ciudadano*"?>       
+        <i class="fas fa-user-cog"></i> Edicion del Ciudadano <strong><?php echo $element->nombre;?></strong>      
         </div>
 
         <div class="card-body">
 
         <!-- Formulario -->
 
-        <form class="needs-validation" type="POST" action= "editar.php" novalidate>
+        <form class="needs-validation" method="POST" action= "editar.php?id=<?php echo $element->id; ?>" novalidate>
             <div class="form-row">
                 <div class="col-md-4 mb-3">
                     <h6><label for="nombre" class="col-form-label-lg col-form-label">Nombre</label></h6>
@@ -87,7 +88,7 @@ if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['email']
                         <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-user" aria-hidden="true"></i></span>
                         </div>
-                        <input value="<?php ?>" type="text" class="form-control" name="nombre" id="nombre" value="<?php echo $element->nombre;?>" placeholder="Nombre del ciudadano" aria-describedby="inputGroupPrepend" required>
+                        <input value="<?php echo $element->nombre;?>" type="text" class="form-control" name="nombre" id="nombre" placeholder="Nombre del ciudadano" aria-describedby="inputGroupPrepend" required>
                         <div class="invalid-feedback">
                         Digite un nombre valido
                         </div>
@@ -99,7 +100,7 @@ if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['email']
                         <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-male" aria-hidden="true"></i></span>
                         </div>
-                        <input value="<?php ?>" type="text" class="form-control" name="apellido" id="apellido"value="<?php echo $element->apellido;?>" placeholder="Apellido del ciudadano" aria-describedby="inputGroupPrepend" required>
+                        <input value="<?php echo $element->apellido;?>" type="text" class="form-control" name="apellido" id="apellido" placeholder="Apellido del ciudadano" aria-describedby="inputGroupPrepend" required>
                         <div class="invalid-feedback">
                         Digite un apellido valido
                         </div>
@@ -113,7 +114,7 @@ if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['email']
                         <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-envelope" aria-hidden="true"></i></span>
                         </div>
-                        <input value="<?php ?>" name="email" type="email" class="form-control" id="email" placeholder="Email del Ciudadano" aria-describedby="inputGroupPrepend" required>
+                        <input value="<?php echo $element->email;?>" name="email" type="email" class="form-control" id="email"value="<?php echo $element->email;?>" placeholder="Email del Ciudadano" aria-describedby="inputGroupPrepend" required>
                         <div class="invalid-feedback">
                         Digite un email valido
                         </div>
@@ -125,7 +126,7 @@ if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['email']
                         <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-id-card" aria-hidden="true"></i></span>
                         </div>
-                        <input value="<?php ?>" type="text" class="form-control" name="documentoIdentidad" id="documentoIdentidad" placeholder="Username" aria-describedby="inputGroupPrepend" required>
+                        <input value="<?php echo $element->documentoIdentidad;?>" type="text" class="form-control" name="documentoIdentidad" id="documentoIdentidad" placeholder="Documento de Identidad" aria-describedby="inputGroupPrepend" required>
                         <div class="invalid-feedback">
                         Digite un documento de identidad valido
                         </div>
@@ -134,16 +135,19 @@ if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['email']
             </div>
             <h6><label class="col-form-label-lg col-form-label">Estado</label></h6>
             <div class="custom-control custom-radio">
-                <input type="radio" name="estado" class="custom-control-input" id="customControlValidation2" name="radio-stacked" checked required>
-                <label class="custom-control-label" for="customControlValidation2">Activo</label>
-            </div>
-            <div class="custom-control custom-radio mb-3">
-                <input type="radio" name="estado"  class="custom-control-input" id="customControlValidation3" name="radio-stacked" required>
-                <label class="custom-control-label" for="customControlValidation3">Inactivo</label>
+            <select name="estado" class="form-control" id="CheckStatus">
+            <option <?php echo $selectedActivo; ?> value="1">Activo</option>
+            <option <?php echo $selectedInactivo; ?> value="0">Inactivo</option>
+            </select>
             </div>
             <br>
             <button class="btn btn-primary" type="submit">Editar</button>
         </form>
+        <?php else : ?>
+
+<h2>No existe</h2>
+
+<?php endif; ?>
 
 <script>
 // Example starter JavaScript for disabling form submissions if there are invalid fields

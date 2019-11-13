@@ -18,7 +18,7 @@ $service = new CiudadanoService("../../database");
 
 if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['email']) && isset($_POST['documentoIdentidad'])){
     $newEntity = new Ciudadano();
-    $newEntity->InitializeData($_POST['nombre'], $_POST['apellido'],$_POST['email'],$_POST['documentoIdentidad'],true);
+    $newEntity->InitializeData(0,$_POST['documentoIdentidad'],$_POST['nombre'], $_POST['apellido'],$_POST['email'],true);
     $service->Add($newEntity);
     header("Location: listaCiudadanos.php"); 
     exit(); 

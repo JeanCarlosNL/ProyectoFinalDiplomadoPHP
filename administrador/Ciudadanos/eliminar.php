@@ -12,13 +12,13 @@ include '../../database/repository/RepositoryCiudadano.php';
 include 'CiudadanoService.php';
 
 $service = new CiudadanoService("../../database");
-$containId = isset($_GET['documentoIdentidad']); 
+$containId = isset($_GET['id']); 
 $Id = 0;
 if ($containId) {
-    $Id = $_GET['documentoIdentidad']; 
+    $Id = $_GET['id']; 
     $service->Delete($Id);
 }
- header("Location: listaCiudadano.php"); 
+ header("Location: listaCiudadanos.php"); 
  exit(); 
  
 ?>
