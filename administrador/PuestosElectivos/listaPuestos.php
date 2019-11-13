@@ -123,4 +123,16 @@ $listado = $service->GetAll();
 
 <?php $layout->mostrarFooter();?>
 </body>
+<script>
+ $(document).ready(function() {
+          
+          $(".delete-button").on("click",function(){
+            if(confirm("Esta seguro que deseas borrar este puesto ?")){
+                window.location = "delete.php?id="+$(this).data("id");
+            }
+          });
+          //
+        });
+
+            </script>
 </html>

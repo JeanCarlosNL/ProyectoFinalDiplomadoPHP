@@ -128,7 +128,7 @@ $listado = $service->GetAll();
  $(document).ready(function() {
           
           $(".delete-button").on("click",function(){
-            if(confirm("Esta seguro que deseas borrar este usuario ?")){
+            if(confirm("Esta seguro que deseas borrar este partido ?")){
                 window.location = "delete.php?id="+$(this).data("id");
             }
           });

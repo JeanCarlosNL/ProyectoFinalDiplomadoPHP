@@ -19,7 +19,7 @@ $containId = isset($_GET['documentoIdentidad']);
 $element = null;
 if ($containId) {
     $id = $_GET['documentoIdentidad'];
-    $element = $service->GetById($id);
+    $element = $service->GetById($documentoIdentidad);
 $selectedActivo=($element->estado == "1") ? "checked" : ""; 
 $selectedInactivo=($element->estado == "0") ? "checked" : ""; 
 }
@@ -27,9 +27,9 @@ $selectedInactivo=($element->estado == "0") ? "checked" : "";
 
 if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['email']) && isset($_POST['documentoIdentidad']) && isset($_POST['estado'])){
 
-    $updateEntity = new Partido();
+    $updateEntity = new Ciudadano();
     $updateEntity->InitializeData($_POST['documentoIdentidad'], $_POST['nombre'],$_POST['apellido'],$_POST['email'], $_POST['estado']);
-    $service->Update($id, $updateEntity);
+    $service->Update($$updateEntity);
     header("Location: listaCiudadanos.php");
    exit();
 
@@ -64,78 +64,10 @@ if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['email']
     <!-- Breadcrumbs-->
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
-        <a href="listaElecciones.php">Ciudadanos</a>
+        <a href="listaCiudadanos.php">Ciudadanos</a>
         </li>
         <li class="breadcrumb-item active">Editar</li>
     </ol>
-
-    <!-- Icon Cards-->
-    <!--<div class="row">
-        <div class="col-xl-3 col-sm-6 mb-3">
-        <div class="card text-white bg-primary o-hidden h-100">
-            <div class="card-body">
-            <div class="card-body-icon">
-                <i class="fas fa-fw fa-comments"></i>
-            </div>
-            <div class="mr-5">26 New Messages!</div>
-            </div>
-            <a class="card-footer text-white clearfix small z-1" href="#">
-            <span class="float-left">View Details</span>
-            <span class="float-right">
-                <i class="fas fa-angle-right"></i>
-            </span>
-            </a>
-        </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 mb-3">
-        <div class="card text-white bg-warning o-hidden h-100">
-            <div class="card-body">
-            <div class="card-body-icon">
-                <i class="fas fa-fw fa-list"></i>
-            </div>
-            <div class="mr-5">11 New Tasks!</div>
-            </div>
-            <a class="card-footer text-white clearfix small z-1" href="#">
-            <span class="float-left">View Details</span>
-            <span class="float-right">
-                <i class="fas fa-angle-right"></i>
-            </span>
-            </a>
-        </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 mb-3">
-        <div class="card text-white bg-success o-hidden h-100">
-            <div class="card-body">
-            <div class="card-body-icon">
-                <i class="fas fa-fw fa-shopping-cart"></i>
-            </div>
-            <div class="mr-5">123 New Orders!</div>
-            </div>
-            <a class="card-footer text-white clearfix small z-1" href="#">
-            <span class="float-left">View Details</span>
-            <span class="float-right">
-                <i class="fas fa-angle-right"></i>
-            </span>
-            </a>
-        </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 mb-3">
-        <div class="card text-white bg-danger o-hidden h-100">
-            <div class="card-body">
-            <div class="card-body-icon">
-                <i class="fas fa-fw fa-life-ring"></i>
-            </div>
-            <div class="mr-5">13 New Tickets!</div>
-            </div>
-            <a class="card-footer text-white clearfix small z-1" href="#">
-            <span class="float-left">View Details</span>
-            <span class="float-right">
-                <i class="fas fa-angle-right"></i>
-            </span>
-            </a>
-        </div>
-        </div>
-    </div>-->
 
     <!--Formulario-->
     <div class="card mb-3">
@@ -155,7 +87,7 @@ if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['email']
                         <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-user" aria-hidden="true"></i></span>
                         </div>
-                        <input value="<?php ?>" type="text" class="form-control" name="nombre" id="nombre" placeholder="Nombre del ciudadano" aria-describedby="inputGroupPrepend" required>
+                        <input value="<?php ?>" type="text" class="form-control" name="nombre" id="nombre" value="<?php echo $element->nombre;?>" placeholder="Nombre del ciudadano" aria-describedby="inputGroupPrepend" required>
                         <div class="invalid-feedback">
                         Digite un nombre valido
                         </div>
@@ -167,7 +99,7 @@ if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['email']
                         <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-male" aria-hidden="true"></i></span>
                         </div>
-                        <input value="<?php ?>" type="text" class="form-control" name="apellido" id="apellido" placeholder="Apellido del ciudadano" aria-describedby="inputGroupPrepend" required>
+                        <input value="<?php ?>" type="text" class="form-control" name="apellido" id="apellido"value="<?php echo $element->apellido;?>" placeholder="Apellido del ciudadano" aria-describedby="inputGroupPrepend" required>
                         <div class="invalid-feedback">
                         Digite un apellido valido
                         </div>
