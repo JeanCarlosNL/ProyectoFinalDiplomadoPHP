@@ -19,7 +19,7 @@ $containId = isset($_GET['documentoIdentidad']);
 $element = null;
 if ($containId) {
     $id = $_GET['documentoIdentidad'];
-    $element = $service->GetById($documentoIdentidad);
+    $element = $service->GetById($id);
 $selectedActivo=($element->estado == "1") ? "checked" : ""; 
 $selectedInactivo=($element->estado == "0") ? "checked" : ""; 
 }
