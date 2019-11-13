@@ -14,8 +14,27 @@ class PartidoService
     {
         return $this->repository->GetById($id, $field);
     }
-    public function Update($entity, $field = null)
+    public function Update($id, $entity, $field = null)
     {
+        $element = $this->GetById($id);
+
+        if ($_FILES['logo']) {
+
+            if ($_FILES['logo']['error'] == 4) {
+                $entity->logo = $element->logo;
+            } else {
+                $typeReplace = str_replace("image/", "", $_FILES["logo"]["type"]);
+            $type =  $_FILES["logo"]["type"];
+            $size =  $_FILES["logo"]["size"];
+            $name = 'img/' . $entity->nombre . '.' . $typeReplace;
+
+            $sucess = $this->utility->uploadImage("../Partidos/img", $name, $_FILES['logo']['tmp_name'], $type, $size);
+
+                if ($sucess) {
+                    $entity->logo = $name;
+                }
+            }
+        }
         return $this->repository->Update($entity, $field);
     }
     public function Add($entity)
