@@ -1,13 +1,29 @@
 <?php 
 
-include "../layout/layout.php";
+include '../layout/layout.php';
+include '../../helpers/utilities.php';
+include '../../helpers/FileHandler/IFileHandler.php';
+include '../../helpers/FileHandler/JsonFileHandler.php';
+include '../../database/SADVContext.php';
+include 'PuestosElectivos.php';
+include '../../database/repository/IRepository.php';
+include '../../database/repository/RepositoryBase.php';
+include '../../database/repository/RepositoryPuestosE.php';
+include 'PuestosService.php';
 
 $layout = new layout(true,"puestos",true);
-
+$utilities = new Utilities();
+$service = new PuestoElectivoService("../../database");
 // Validacion de POST
 
 if(isset($_POST['nombre']) && isset($_POST['descripcion'])){
-
+    if(isset($_POST['nombre']) && isset($_POST['descripcion'])){
+        $newEntity = new PuestoElectivo();
+        $newEntity->InitializeData(0, $_POST['nombre'], $_POST['descripcion'],true);
+        $service->Add($newEntity);
+        header("Location: listaPuestos.php"); 
+        exit(); 
+    }
 }
 
 ?>
@@ -27,7 +43,7 @@ if(isset($_POST['nombre']) && isset($_POST['descripcion'])){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Partidos</title>
+    <title>Puestos</title>
 </head>
 <body  id="page-top">
 <?php $layout->mostrarHeader();?>
@@ -39,7 +55,7 @@ if(isset($_POST['nombre']) && isset($_POST['descripcion'])){
     <!-- Breadcrumbs-->
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
-        <a href="listaElecciones.php">Puesto</a>
+        <a href="listaPuestos.php">Puesto</a>
         </li>
         <li class="breadcrumb-item active">Guardar</li>
     </ol>
@@ -122,7 +138,7 @@ if(isset($_POST['nombre']) && isset($_POST['descripcion'])){
 
         <!-- Formulario -->
 
-        <form class="needs-validation" type="POST" action= "guardar.php" enctype="multipart/form-data" novalidate>
+        <form class="needs-validation" method="POST" action= "guardar.php" enctype="multipart/form-data" novalidate>
             <div class="form-row">
                 <div class="col-md-5 mb-3">
                 <h6><label for="nombre" class="col-form-label-lg col-form-label">Nombre</label></h6>

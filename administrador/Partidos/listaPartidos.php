@@ -39,11 +39,7 @@ $listado = $service->GetAll();
 </head>
 <body  id="page-top">
 <?php $layout->mostrarHeader();?>
-<?php if (empty($listado)) : ?>
 
-<h3>No hay Partido registrado, <a href="guardar.php" class="btn btn-primary my-2"><i class="fa fa-plus-square"></i> Agregar nuevo partido</a> </h3>
-
-<?php else : ?>
 <div id="content-wrapper">
 
     <div class="container-fluid">
@@ -55,7 +51,11 @@ $listado = $service->GetAll();
         </li>
         <li class="breadcrumb-item active">Lista</li>
     </ol>
+<?php if (empty($listado)) : ?>
 
+<h3>No hay Partido registrado, <a href="guardar.php" class="btn btn-primary my-2"><i class="fa fa-plus-square"></i> Agregar nuevo partido</a> </h3>
+
+<?php else : ?>
     <!--Tabla-->
     <div class="card mb-3">
         <div class="card-header">
@@ -76,7 +76,6 @@ $listado = $service->GetAll();
                             <table class="table table-bordered datatable dataTable no-footer" width="100%" cellspacing="0" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="width: 100%;">
                                 <thead>
                                     <tr role="row">
-                                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Negocio: activate to sort column ascending" style="width: 50px;">ID</th>
                                         <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Tipo Usuario: activate to sort column ascending" style="width: 150px;">Logo</th>
                                         <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Usuario: activate to sort column ascending" style="width:300px;">Nombre</th>
                                         <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Nombre: activate to sort column ascending" style="width: 64px;">Descripcion</th>
@@ -87,7 +86,6 @@ $listado = $service->GetAll();
                                 <tbody> 
                                 <?php foreach ($listado as $partido) : ?>
                                         <tr>
-                                            <th scope="col"><?php echo $partido->id; ?></th>
                                             <th scope="col"><img class="bd-placeholder-img card-img-top" src="<?php echo $partido->logo ?>" height="100px"  alt=""></th>
                                             <th scope="col"><?php echo $partido->nombre; ?></th>
                                             <th scope="col"><?php echo $partido->descripcion; ?></th>
@@ -114,21 +112,7 @@ $listado = $service->GetAll();
                             </table>
                         </div>
                     </div>
-                    
-                    <div class="row">
-                    <div class="col-sm-12 col-md-5">
-                        <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing 1 to 3 of 3 entries</div>
-                    </div>
-                    <div class="col-sm-12 col-md-7">
-                        <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
-                        <ul class="pagination">
-                            <li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li>
-                            <li class="paginate_button page-item active"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">1</a></li>
-                            <li class="paginate_button page-item next disabled" id="DataTables_Table_0_next"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="2" tabindex="0" class="page-link">Next</a></li>
-                        </ul>
-                        </div>
-                    </div>
-                    </div>
+
                 </div>
             </div>
         </div>

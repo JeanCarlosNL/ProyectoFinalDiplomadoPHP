@@ -1,14 +1,41 @@
 <?php 
-
-include "../layout/layout.php";
+include '../layout/layout.php';
+include '../../helpers/utilities.php';
+include '../../helpers/FileHandler/IFileHandler.php';
+include '../../helpers/FileHandler/JsonFileHandler.php';
+include '../../database/SADVContext.php';
+include 'PuestosElectivos.php';
+include '../../database/repository/IRepository.php';
+include '../../database/repository/RepositoryBase.php';
+include '../../database/repository/RepositoryPuestosE.php';
+include 'PuestosService.php';
 
 $layout = new layout(true,"puestos",true);
-
+$utilities = new Utilities();
+$service = new PuestoElectivoService("../../database");
 // Validacion de POST
 
-if(isset($_POST['nombre']) && isset($_POST['descripcion']) && isset($_POST['estado'])){
+$containId = isset($_GET['id']);
+$element = null;
 
+if ($containId) {
+
+    $id = $_GET['id'];
+
+    $element = $service->GetById($id);
+
+$selectedActivo=($element->estado == "1") ? "selected" : ""; 
+$selectedInactivo=($element->estado == "0") ? "selected" : ""; 
 }
+    if(isset($_POST['nombre']) && isset($_POST['descripcion'])){
+        $updateEntity = new PuestoElectivo();
+        $updateEntity->InitializeData($id, $_POST['nombre'], $_POST['descripcion'], $_POST['estado']);
+        $service->Update($updateEntity);
+        header("Location: listaPuestos.php");
+        exit();
+
+    }
+
 
 ?>
 
@@ -27,7 +54,7 @@ if(isset($_POST['nombre']) && isset($_POST['descripcion']) && isset($_POST['esta
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Partidos</title>
+    <title>Puesto</title>
 </head>
 <body  id="page-top">
 <?php $layout->mostrarHeader();?>
@@ -39,90 +66,22 @@ if(isset($_POST['nombre']) && isset($_POST['descripcion']) && isset($_POST['esta
     <!-- Breadcrumbs-->
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
-        <a href="listaElecciones.php">Puesto</a>
+        <a href="listaPuestos.php">Puesto</a>
         </li>
         <li class="breadcrumb-item active">Editar</li>
     </ol>
 
-    <!-- Icon Cards-->
-    <!--<div class="row">
-        <div class="col-xl-3 col-sm-6 mb-3">
-        <div class="card text-white bg-primary o-hidden h-100">
-            <div class="card-body">
-            <div class="card-body-icon">
-                <i class="fas fa-fw fa-comments"></i>
-            </div>
-            <div class="mr-5">26 New Messages!</div>
-            </div>
-            <a class="card-footer text-white clearfix small z-1" href="#">
-            <span class="float-left">View Details</span>
-            <span class="float-right">
-                <i class="fas fa-angle-right"></i>
-            </span>
-            </a>
-        </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 mb-3">
-        <div class="card text-white bg-warning o-hidden h-100">
-            <div class="card-body">
-            <div class="card-body-icon">
-                <i class="fas fa-fw fa-list"></i>
-            </div>
-            <div class="mr-5">11 New Tasks!</div>
-            </div>
-            <a class="card-footer text-white clearfix small z-1" href="#">
-            <span class="float-left">View Details</span>
-            <span class="float-right">
-                <i class="fas fa-angle-right"></i>
-            </span>
-            </a>
-        </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 mb-3">
-        <div class="card text-white bg-success o-hidden h-100">
-            <div class="card-body">
-            <div class="card-body-icon">
-                <i class="fas fa-fw fa-shopping-cart"></i>
-            </div>
-            <div class="mr-5">123 New Orders!</div>
-            </div>
-            <a class="card-footer text-white clearfix small z-1" href="#">
-            <span class="float-left">View Details</span>
-            <span class="float-right">
-                <i class="fas fa-angle-right"></i>
-            </span>
-            </a>
-        </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 mb-3">
-        <div class="card text-white bg-danger o-hidden h-100">
-            <div class="card-body">
-            <div class="card-body-icon">
-                <i class="fas fa-fw fa-life-ring"></i>
-            </div>
-            <div class="mr-5">13 New Tickets!</div>
-            </div>
-            <a class="card-footer text-white clearfix small z-1" href="#">
-            <span class="float-left">View Details</span>
-            <span class="float-right">
-                <i class="fas fa-angle-right"></i>
-            </span>
-            </a>
-        </div>
-        </div>
-    </div>-->
-
     <!--Formulario-->
     <div class="card mb-3">
         <div class="card-header">
-        <i class="fas fa-user-cog"></i> Edicion del puesto <?= "*Nombre del puesto*"?>
+        <i class="fas fa-user-cog"></i> Edicion del puesto <strong><?php echo $element->nombre;?></strong>
         </div>
 
         <div class="card-body">
 
         <!-- Formulario -->
 
-        <form class="needs-validation" type="POST" action= "guardar.php" enctype="multipart/form-data" novalidate>
+        <form class="needs-validation" method="POST" action= "editar.php?id=<?php echo $element->id; ?>" enctype="multipart/form-data" novalidate>
             <div class="form-row">
                 <div class="col-md-5 mb-3">
                     <h6><label for="nombre" class="col-form-label-lg col-form-label">Nombre</label></h6>
@@ -130,7 +89,7 @@ if(isset($_POST['nombre']) && isset($_POST['descripcion']) && isset($_POST['esta
                         <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-user" aria-hidden="true"></i></span>
                         </div>
-                        <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Nombre del puesto" aria-describedby="inputGroupPrepend" required>
+                        <input type="text" class="form-control" name="nombre" id="nombre" placerholder="Nombre del Puesto" value="<?php echo $element->nombre;?>" aria-describedby="inputGroupPrepend" required>
                         <div class="invalid-feedback">
                         Digite un nombre valido
                         </div>
@@ -145,7 +104,7 @@ if(isset($_POST['nombre']) && isset($_POST['descripcion']) && isset($_POST['esta
                         <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroupPrepend"></span>
                         </div>
-                        <textarea type="text" class="form-control" name="descripcion" id="descripcion" placeholder="Descripcion del puesto" aria-describedby="inputGroupPrepend" requiredcols="30" rows="10"></textarea>
+                        <textarea  class="form-control" name="descripcion" id="descripcion" placeholder="Descripcion del puesto" aria-describedby="inputGroupPrepend" requiredcols="30" rows="10"><?php echo $element->descripcion;?></textarea>
                         <div class="invalid-feedback">
                         Digite una descripcion valida
                         </div>
@@ -154,12 +113,10 @@ if(isset($_POST['nombre']) && isset($_POST['descripcion']) && isset($_POST['esta
             </div>
             <h6><label class="col-form-label-lg col-form-label">Estado</label></h6>
             <div class="custom-control custom-radio">
-                <input type="radio" name="estado" class="custom-control-input" id="customControlValidation2" name="radio-stacked" checked required>
-                <label class="custom-control-label" for="customControlValidation2">Activo</label>
-            </div>
-            <div class="custom-control custom-radio mb-3">
-                <input type="radio" name="estado"  class="custom-control-input" id="customControlValidation3" name="radio-stacked" required>
-                <label class="custom-control-label" for="customControlValidation3">Inactivo</label>
+            <select name="estado" class="form-control" id="CheckStatus">
+            <option <?php echo $selectedActivo; ?> value="1">Activo</option>
+            <option <?php echo $selectedInactivo; ?> value="0">Inactivo</option>
+            </select>
             </div>
             <br>
             <button class="btn btn-primary" type="submit">Editar</button>

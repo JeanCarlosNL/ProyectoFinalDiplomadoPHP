@@ -21,8 +21,8 @@ $element = null;
 if ($containId) {
     $id = $_GET['id'];
     $element = $service->GetById($id);
-$selectedActivo=($element->estado == "1") ? "checked" : ""; 
-$selectedInactivo=($element->estado == "0") ? "checked" : ""; 
+$selectedActivo=($element->estado == "1") ? "selected" : ""; 
+$selectedInactivo=($element->estado == "0") ? "selected" : ""; 
 }
 
 
@@ -93,7 +93,7 @@ if(isset($_POST['nombre']) && isset($_POST['descripcion'])){
                         <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-user" aria-hidden="true"></i></span>
                         </div>
-                        <input type="text" class="form-control" name="nombre" id="nombre" value=" <?php echo $element->nombre;?> " placeholder="Nombre del Partido" aria-describedby="inputGroupPrepend" required>
+                        <input type="text" class="form-control" name="nombre" id="nombre" value="<?php echo $element->nombre;?>" placeholder="Nombre del Partido" aria-describedby="inputGroupPrepend" required>
                         <div class="invalid-feedback">
                         Digite un nombre valido
                         </div>
