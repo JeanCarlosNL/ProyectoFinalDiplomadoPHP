@@ -1,3 +1,28 @@
+<?php
+
+session_start();
+if(isset($_SESSION['Administrador'])){
+    if($_SESSION['Administrador'] != null){
+        header("location:dashboard.php");
+        exit;
+ }
+}
+
+
+if(isset($_POST['nombre']) && isset($_POST['contrasena'])){
+    $_SESSION['Administrador'] = "Soy admin";
+    header("location:dashboard.php");
+    exit;
+
+}
+$mensaje="";
+if(isset($_SESSION["mensajeAutorizacion"])){
+    $mensaje= $_SESSION['mensajeAutorizacion'];
+}
+$_SESSION['mensajeAutorizacion'] ="";
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,6 +47,9 @@
     <title>Document</title>
 </head>
 <body>
+
+<?php if($mensaje=="No tiene permizo para acceder"){echo "<script type='text/javascript'>alert('No tiene permitido acceder');</script>";}?>
+
 
      <!-- Barra de Navegacion-->   
  
@@ -50,20 +78,46 @@
             <div id="login-row" class="row justify-content-center align-items-center">
                 <div id="login-column" class="col-md-6">
                     <div id="login-box" class="col-md-12">
-                        <form id="login-form" class="form" action="dashboard.php" method="post">
+                        <form id="login-form" class="form needs-validation" novalidate action="inicioSesion.php" method="POST">
                             <h3 class="text-center text-info">Inicio</h3>
                             <div class="form-group">
                                 <label for="username" class="text-info">Nombre de Usuario:</label><br>
-                                <input type="text" name="username" id="username" class="form-control">
+                                <input type="text" name="nombre" id="nombre" class="form-control" required>
+                                <div class="invalid-feedback">
+                                    Digite su nombre de usuario
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="password" class="text-info">Contraseña:</label><br>
-                                <input type="text" name="password" id="password" class="form-control">
+                                <input type="text" name="contrasena" id="contrasena" class="form-control" required>
+                                <div class="invalid-feedback">
+                                    Digite su contraseña
+                                </div>
                             </div>
                             <div class="form-group">
                                 <input type="submit" name="submit" class="btn btn-info btn-md" value="Ingresar">
                             </div>
                         </form>
+                        <script>
+                            // Example starter JavaScript for disabling form submissions if there are invalid fields
+                            (function() {
+                            'use strict';
+                            window.addEventListener('load', function() {
+                                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                                var forms = document.getElementsByClassName('needs-validation');
+                                // Loop over them and prevent submission
+                                var validation = Array.prototype.filter.call(forms, function(form) {
+                                form.addEventListener('submit', function(event) {
+                                    if (form.checkValidity() === false) {
+                                    event.preventDefault();
+                                    event.stopPropagation();
+                                    }
+                                    form.classList.add('was-validated');
+                                }, false);
+                                });
+                            }, false);
+                            })();
+                        </script>
                     </div>
                 </div>
             </div>

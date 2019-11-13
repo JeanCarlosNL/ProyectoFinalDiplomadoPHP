@@ -161,7 +161,7 @@ if(isset($_POST['nombre']) && isset($_POST['descripcion'])){
                     <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroupPrepend"></span>
                     </div>
-                    <textarea type="text" class="form-control" name="descripcion" id="descripcion" placeholder="Descripcion del puesto" aria-describedby="inputGroupPrepend" requiredcols="30" rows="10"></textarea>
+                    <textarea type="text" class="form-control" name="descripcion" required id="descripcion" placeholder="Descripcion del puesto" aria-describedby="inputGroupPrepend" requiredcols="30" rows="10"></textarea>
                     <div class="invalid-feedback">
                     Digite una descripcion valida
                     </div>

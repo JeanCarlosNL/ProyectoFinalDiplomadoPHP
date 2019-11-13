@@ -111,7 +111,7 @@ if(isset($_POST['nombre']) && isset($_POST['descripcion'])){
                     <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroupPrepend"></span>
                     </div>
-                    <textarea  class="form-control" name="descripcion" id="descripcion" placeholder="Descripcion del partido" aria-describedby="inputGroupPrepend" requiredcols="30" rows="10"></textarea>
+                    <textarea  class="form-control" name="descripcion" id="descripcion" placeholder="Descripcion del partido" aria-describedby="inputGroupPrepend" requiredcols="30" rows="10" required></textarea>
                    
                 </div>
                 </div>
@@ -123,7 +123,7 @@ if(isset($_POST['nombre']) && isset($_POST['descripcion'])){
 
 
 <script>
-/*// Example starter JavaScript for disabling form submissions if there are invalid fields
+// Example starter JavaScript for disabling form submissions if there are invalid fields
 (function() {
   'use strict';
   window.addEventListener('load', function() {
@@ -140,7 +140,7 @@ if(isset($_POST['nombre']) && isset($_POST['descripcion'])){
       }, false);
     });
   }, false);
-})();*/
+})();
 </script>
         <!-- /Formulario -->
 
