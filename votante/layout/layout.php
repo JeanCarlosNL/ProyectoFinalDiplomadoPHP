@@ -84,7 +84,7 @@ EOF;
         <br><br><br><br><br><br><br><br><br>
 
   <!-- Footer -->
-  <footer class="py-5 bg-blue" style="background-color: #1f3c88">
+  <footer class="py-5 bg-blue" style="background-color: #1f3c88; position:fixed;left:0px;bottom:0px;height:30px;width:100%;">
     <div class="container">
     <p class="m-0 text-center text-white fuente_titulo">Neo Techniques &copy;Copyright</p>
     </div>
