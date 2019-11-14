@@ -17,11 +17,21 @@ $utilities = new Utilities();
 $service = new EleccionService("../../database");
 
 $listado = $service->GetAll();
-
+if(isset($_POST['nombre']) && isset($_POST['fecha'])){
+    $newEntity = new Eleccion();
+    $newEntity->InitializeData(0, $_POST['nombre'], $_POST['fecha'],true);
+    $service->Add($newEntity);
+    header("Location: listaElecciones.php"); 
+    exit(); 
+}
 date_default_timezone_set ( "America/Santo_Domingo" );
 $date = Date('Y-m-d');
 
-
+$eleccion=$service->getAll();
+$contador=0;
+foreach($eleccion as $activa){
+    if($activa->estado==1){$contador++;}
+}
 
 ?>
 
@@ -68,7 +78,10 @@ $date = Date('Y-m-d');
     <div class="card mb-3">
         <div class="card-header">
         <i class="fas fa-user-cog"></i> Listado de Elecciones        
+        <?php if($contador<1):?>       
+
             <button type="button" style="float: right;" class="btn btn-primary" data-toggle="modal" data-target="#modal">Nueva eleccion</button>
+            <?php endif;?>
         </div>
         <div class="card-body">
             <div class="table-responsive" id="rUsers">
@@ -92,7 +105,7 @@ $date = Date('Y-m-d');
                                             <th scope="col">
                                                 <div class="form-check">
                                                     <?php if ($eleccion->estado) : ?>
-                                                        <input class="form-check-input form-control-lg" style="width:30px;margin-top: -24%;" disabled type="checkbox" checked id="defaultCheck1">
+                                                        <input class="form-check-input form-control-lg" style="width:30px;margin-top: -3%;" disabled type="checkbox" checked id="defaultCheck1">
                                                     <?php else : ?>
                                                         <input class="form-check-input form-control-lg" style="width:30px;margin-top: -3%;" type="checkbox" id="defaultCheck1">
                                                     <?php endif; ?>
@@ -127,19 +140,19 @@ $date = Date('Y-m-d');
       </div>
       <div class="modal-body">
 
-        <form>
+      <form class="needs-validation" method="POST" action= "listaElecciones.php" enctype="multipart/form-data" novalidate>
           <div class="form-group">
             <label for="recipient-name" class="col-form-label">Nombre de la eleccion</label>
-            <input type="text" name="nombre" class="form-control" id="recipient-name">
+            <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Nombre de la eleccion" aria-describedby="inputGroupPrepend" required>
           </div>
 
           <div class="form-group">
             <label for="recipient-name"  class="col-form-label">Fecha de la eleccion</label>
             <input type="date" name ="fecha" class="form-control" value="<?= $date ?>" readonly id="recipient-name">
           </div>
+        <button class="btn btn-primary" type="submit">Guardar</button>
 
         </form>
-        <button type="button" class="btn btn-primary">Guardar</button>
 
       </div>
       <div class="modal-footer">

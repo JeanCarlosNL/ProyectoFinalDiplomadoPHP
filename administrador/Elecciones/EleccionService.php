@@ -20,9 +20,8 @@ class EleccionService
     }
     public function Add($entity)
     {
-
         return $this->repository->Add($entity);
-        
+
     }
     public function GetAll()
     {

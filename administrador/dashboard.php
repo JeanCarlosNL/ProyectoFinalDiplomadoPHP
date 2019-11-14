@@ -22,7 +22,7 @@ $activa = false;
 foreach($eleccionActiva as $eleccion){
 
     if($eleccion->estado == 1){
-       $activa == true;
+       $activa = true;
     }
 
 }

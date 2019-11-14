@@ -1,8 +1,24 @@
 <?php 
+include '/helpers/utilities.php';
+include '/helpers/FileHandler/IFileHandler.php';
+include '/helpers/FileHandler/JsonFileHandler.php';
+include '/database/SADVContext.php';
+include '/administrador/Elecciones/Eleccion.php';
+include '/database/repository/IRepository.php';
+include '/database/repository/RepositoryBase.php';
+include '/database/repository/RepositoryEleccion.php';
+include '/administrador/Elecciones/EleccionService.php';
+
+$serviceElecciones = new EleccionService("database");
+$eleccion=$serviceElecciones->getAll();
+$contador=0;
+foreach($eleccion as $activa){
+    if($activa->estado>=1){$contador++;}
+}
 
 session_start();
 
-if(isset($_POST["documentoIdentidad"])){
+if(isset($_POST["documentoIdentidad"])&& $contador>=1){
     $_SESSION['Votante']="soy votante";
    header("location:votante/dashboard.php");
    exit();
