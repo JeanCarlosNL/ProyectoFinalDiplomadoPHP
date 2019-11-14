@@ -11,10 +11,18 @@ include '../../database/repository/IRepository.php';
 include '../../database/repository/RepositoryBase.php';
 include '../../database/repository/RepositoryCiudadano.php';
 include 'CandidatoService.php';
+include '../Partidos/Partido.php';
+include '../Partidos/PartidosServices.php';
+include '../PuestosElectivos/PuestosElectivos.php';
+include '../PuestosElectivos/PuestosService.php.php';
 
 $layout = new layout(true,"candidatos",true);
 $utilities = new Utilities();
 $service = new CandidatoService("../../database");
+$partidoService = new PartidoService("../../database");
+$puestoEService = new PuestoElectivoService("../../database");
+
+
 // Validacion de POST
 $containId = isset($_GET['id']);
 $element = null;

@@ -41,5 +41,4 @@ class RepositoryCandidato extends RepositoryBase
     {
         return parent::Delete($id,$this->candidato);
     }
-
 }

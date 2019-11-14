@@ -9,13 +9,21 @@ include '../../database/SADVContext.php';
 include 'Candidato.php';
 include '../../database/repository/IRepository.php';
 include '../../database/repository/RepositoryBase.php';
-include '../../database/repository/RepositoryCandidato.php';
+include '../../database/repository/RepositoryCiudadano.php';
 include 'CandidatoService.php';
-
+include '../Partidos/Partido.php';
+include '../Partidos/PartidoServices.php';
+include '../PuestosElectivos/PuestosElectivos.php';
+include '../PuestosElectivos/PuestosService.php';
 
 $layout = new layout(true,"candidatos",true);
 $utilities = new Utilities();
 $service = new CandidatoService("../../database");
+$partidoService = new PartidoService("../../database");
+$puestoEService = new PuestoElectivoService("../../database");
+$listadoPartido = $partidoService->GetAll();
+$listadoPuesto = $puestoEService->GetAll();
+
 // Validacion de POST
 
 if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['nombrePartido']) && isset($_POST['nombrePuesto']) && isset($_FILES['foto'])){
@@ -55,7 +63,7 @@ if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['nombreP
     <!-- Breadcrumbs-->
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
-        <a href="listaElecciones.php">Candidatos</a>
+        <a href="listaCandidatos.php">Candidatos</a>
         </li>
         <li class="breadcrumb-item active">Guardar</li>
     </ol>
@@ -105,10 +113,11 @@ if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['nombreP
                     <span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-users" aria-hidden="true"></i></span>
                     </div>
                     <select name="nombrePartido" class="custom-select" required>
-                        <option name="nombrePartido" value="">Partido al que pertenece</option>
-                        <option name="nombrePartido" value="1">One</option>
-                        <option name="nombrePartido" value="2">Two</option>
-                        <option name="nombrePartido" value="3">Three</option>
+                    <?php foreach ($listadoPuesto as $puestos) : ?>
+
+                        <option name="<?php echo $puesto->nombre;?>" value="<?php echo $puesto->id;?>"><?php echo $puesto->nombre;?></option>
+                        
+                        <?php endforeach; ?>
                     </select>
                     <div class="invalid-feedback">Selecione el partido politico del aspirante</div>
                 </div>

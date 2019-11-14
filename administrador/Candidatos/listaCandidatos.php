@@ -1,7 +1,7 @@
 <?php 
 
 include "../helpers/autorizado.php";
-include '../layout/layout.php';
+include "../layout/layout.php";
 include '../../helpers/utilities.php';
 include '../../helpers/FileHandler/IFileHandler.php';
 include '../../helpers/FileHandler/JsonFileHandler.php';
@@ -9,12 +9,23 @@ include '../../database/SADVContext.php';
 include 'Candidato.php';
 include '../../database/repository/IRepository.php';
 include '../../database/repository/RepositoryBase.php';
-include '../../database/repository/RepositoryCandidato.php';
+include '../../database/repository/RepositoryCiudadano.php';
 include 'CandidatoService.php';
+include '../Partidos/Partido.php';
+include '../Partidos/PartidoServices.php';
+include '../PuestosElectivos/PuestosElectivos.php';
+include '../PuestosElectivos/PuestosService.php';
 
 $layout = new layout(true,"candidatos",true);
 $utilities = new Utilities();
 $service = new CandidatoService("../../database");
+$partidoService = new PartidoService("../../database");
+$puestoEService = new PuestoElectivoService("../../database");
+
+$listadoCandidato = $service->GetAll();
+$listadoPartido = $partidoService->GetAll();
+$listadoPuesto = $puestoEService->GetAll();
+
 ?>
 
 <!DOCTYPE html>
@@ -50,7 +61,7 @@ $service = new CandidatoService("../../database");
     </ol>
     <?php if (empty($listado)) : ?>
 
-<h3>No hay ciudadano registrado, <a href="guardar.php" class="btn btn-primary my-2"><i class="fa fa-plus-square"></i> Agregar nuevo ciudadano </a> </h3>
+<h3>No hay candidato registrado, <a href="guardar.php" class="btn btn-primary my-2"><i class="fa fa-plus-square"></i> Agregar nuevo candidato </a> </h3>
 
 <?php else : ?>
     <!--Tabla-->
