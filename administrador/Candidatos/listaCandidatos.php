@@ -23,8 +23,7 @@ $utilities = new Utilities();
 $service = new CandidatoService("../../database");
 $partidoService = new PartidoService("../../database");
 $puestoEService = new PuestoElectivoService("../../database");
-
-$listadoCandidato = $service->GetAll();
+$listado = $service->getAll();
 $listadoPartido = $partidoService->GetAll();
 $listadoPuesto = $puestoEService->GetAll();
 
@@ -83,7 +82,6 @@ $listadoPuesto = $puestoEService->GetAll();
                                 <thead>
                                     <tr role="row">
                                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Fecha Creacion: activate to sort column ascending" style="width: 10px;">Foto</th>
-                                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Negocio: activate to sort column ascending" style="width: 10px;">ID</th>
                                         <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Tipo Usuario: activate to sort column ascending" style="width: 190px;">Nombre</th>
                                         <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Usuario: activate to sort column ascending" style="width: 170px;">Apellido</th>
                                         <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Nombre: activate to sort column ascending" style="width: 100px;">Partido</th>
@@ -99,8 +97,10 @@ $listadoPuesto = $puestoEService->GetAll();
                                         <th scope="col"><img src="<?php echo $candidato->foto; ?>" height="100px"alt=""></th>
                                             <th scope="col"><?php echo $candidato->nombre; ?></th>
                                             <th scope="col"><?php echo $candidato->apellido; ?></th>
-                                            <th scope="col"><?php echo $candidato->idPartido; ?></th>
-                                            <th scope="col"><?php echo $candidato->idPuesto; ?></th>
+                                            <?php  $elementPartido = $partidoService->GetById($candidato->idPartido); ?>
+                                            <th scope="col"><?php echo $elementPartido->nombre; ?></th>
+                                            <?php  $elementPuestoE = $puestoEService->GetById($candidato->idPuesto); ?>
+                                            <th scope="col"><?php echo $elementPuestoE->nombre; ?></th>
                                             <th scope="col">
                                                 <div class="form-check">
                                                     <?php if ($candidato->estado) : ?>

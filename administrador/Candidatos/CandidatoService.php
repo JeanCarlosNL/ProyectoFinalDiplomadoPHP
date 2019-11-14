@@ -30,7 +30,7 @@ class CandidatoService
             $sucess = $this->utility->uploadImage("../Candidatos/img", $name, $_FILES['foto']['tmp_name'], $type, $size);
 
             if ($sucess) {
-                $entity->logo = $name;
+                $entity->foto = $name;
             }
         }
         return $this->repository->Add($entity);

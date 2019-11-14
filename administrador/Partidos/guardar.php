@@ -83,7 +83,7 @@ if(isset($_POST['nombre']) && isset($_POST['descripcion'])){
                     <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-user" aria-hidden="true"></i></span>
                     </div>
-                    <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Nombre del candidato" aria-describedby="inputGroupPrepend" required>
+                    <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Nombre del partido" aria-describedby="inputGroupPrepend" required>
                     <div class="invalid-feedback">
                     Digite un nombre valido
                     </div>
