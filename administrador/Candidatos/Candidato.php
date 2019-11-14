@@ -1,5 +1,5 @@
 <?php
-class Partido{
+class Candidato{
     public $id;
     public $nombre;
     public $apellido;

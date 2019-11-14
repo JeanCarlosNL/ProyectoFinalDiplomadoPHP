@@ -1,14 +1,39 @@
 <?php 
 
+include "../helpers/autorizado.php";
 include "../layout/layout.php";
+include '../../helpers/utilities.php';
+include '../../helpers/FileHandler/IFileHandler.php';
+include '../../helpers/FileHandler/JsonFileHandler.php';
+include '../../database/SADVContext.php';
+include 'Candidato.php';
+include '../../database/repository/IRepository.php';
+include '../../database/repository/RepositoryBase.php';
+include '../../database/repository/RepositoryCiudadano.php';
+include 'CandidatoService.php';
 
 $layout = new layout(true,"candidatos",true);
-
+$utilities = new Utilities();
+$service = new CandidatoService("../../database");
 // Validacion de POST
+$containId = isset($_GET['id']);
+$element = null;
+if ($containId) {
+    $id = $_GET['id'];
+    $element = $service->GetById($id);
+    $selectedActivo=($element->estado == "1") ? "selected" : ""; 
+    $selectedInactivo=($element->estado == "0") ? "selected" : ""; 
+}
 
 if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['nombrePartido']) && isset($_POST['nombrePuesto']) && isset($_FILES['foto']) && isset($_POST['estado'])){
+   
+    $updateEntity = new Candidato();
+    $updateEntity->InitializeData($id,$_POST['nombre'], $_POST['apellido'],$_POST['nombrePartido'],$_POST['nombrePuesto'],$_POST['estado']);
+    $service->Update($updateEntity);
+    header("Location: listaCandidatos.php");
+   exit();
 
-}
+} else 
 
 ?>
 
@@ -83,7 +108,7 @@ if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['nombreP
             </div>
             <div class="form-row">
                 <div class="col-md-3 mb-3">
-                    <h6><label for="Email" class="col-form-label-lg col-form-label">Partido Polito</label></h6>
+                    <h6><label for="Email" class="col-form-label-lg col-form-label">Partido Politico</label></h6>
                     <div class="input-group">
                         <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-users" aria-hidden="true"></i></span>

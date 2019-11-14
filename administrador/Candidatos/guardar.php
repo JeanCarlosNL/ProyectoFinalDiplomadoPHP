@@ -1,14 +1,26 @@
 <?php 
 
+include "../helpers/autorizado.php";
 include "../layout/layout.php";
+include '../../helpers/utilities.php';
+include '../../helpers/FileHandler/IFileHandler.php';
+include '../../helpers/FileHandler/JsonFileHandler.php';
+include '../../database/SADVContext.php';
+include 'Candidato.php';
+include '../../database/repository/IRepository.php';
+include '../../database/repository/RepositoryBase.php';
+include '../../database/repository/RepositoryCiudadano.php';
+include 'CandidatoService.php';
+
 
 $layout = new layout(true,"candidatos",true);
-
+$utilities = new Utilities();
+$service = new CandidatoService("../../database");
 // Validacion de POST
 
 if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['nombrePartido']) && isset($_POST['nombrePuesto']) && isset($_FILES['foto'])){
     $newEntity = new Candidato();
-    $newEntity->InitializeData(0, $_POST['nombre'], $_POST['descripcion'],true);
+    $newEntity->InitializeData(0, $_POST['nombre'], $_POST['apellido'],$_POST['nombrePartido'],$_POST['nombrePuesto'],true);
     $service->Add($newEntity);
     header("Location: listaCandidatos.php"); 
     exit(); 
