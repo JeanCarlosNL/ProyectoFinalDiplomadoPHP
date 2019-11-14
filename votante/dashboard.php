@@ -1,54 +1,11 @@
+
 <?php
 
 include "helpers/autorizado.php";
 include "layout/layout.php";
-include '../helpers/utilities.php';
-include '../helpers/FileHandler/IFileHandler.php';
-include '../helpers/FileHandler/JsonFileHandler.php';
-include '../database/SADVContext.php';
-include '../administrador/PuestosElectivos/PuestosElectivos.php';
-include '../database/repository/IRepository.php';
-include '../database/repository/RepositoryBase.php';
-include '../database/repository/RepositoryPuestosE.php';
-include '../administrador/PuestosElectivos/PuestosService.php';
 
 $layout = new layout(false,false);
-$servicePuestos = new PuestoElectivoService("../database");
 
-$lista=$servicePuestos->GetAll();
-$listaActivos = array();
-
-// Validacion de Puestos Activos
-foreach($lista as $activos){
-
-    if($activos->estado==1){
-        $listaActivos[]=$activos;
-    }
-
-}
-
-$presidente=false;
-$alcalde=false;
-$senador=false;
-$diputado=false;
-
-foreach($listaActivos as $activos){
-    
-    switch($activos->nombre){
-        case 'Presidente':
-            $presidente=true;
-            break;
-        case 'Alcalde':
-            $alcalde=true;
-            break;
-        case 'Senador':
-            $senador=true;
-            break;
-        case 'Diputado':
-            $diputado=true;
-            break;
-    }
-}
 
 
 ?>
@@ -78,7 +35,7 @@ foreach($listaActivos as $activos){
                 <div class="card-group">
 
                   <!-- Cards -->
-                  <div class="col-sm-3" <?php if($presidente==false){echo "style='display: none;'";} ?>>
+                  <div class="col-sm-3" >
                       <div class="card">
                           <a href="votaciones/presidentes.php"><img src="http://aytomengibar.com/wp-content/uploads/2019/04/generica-votaciones-votar-elecciones-democracia-745x450.jpg"
                               class="card-img-top" alt="..."></a>
@@ -89,7 +46,7 @@ foreach($listaActivos as $activos){
                       </div>
                   </div>
       
-                  <div class="col-sm-3"<?php if($alcalde==false){echo "style='display: none;'";} ?> >
+                  <div class="col-sm-3" >
                       <div class="card">
                           <a href="votaciones/alcaldes.php"><img src="http://aytomengibar.com/wp-content/uploads/2019/04/generica-votaciones-votar-elecciones-democracia-745x450.jpg"
                               class="card-img-top" alt="..."></a>
@@ -99,7 +56,7 @@ foreach($listaActivos as $activos){
                           </div>
                       </div>
                   </div>
-                  <div class="col-sm-3" <?php if($senador==false){echo "style='display: none;'";} ?>>
+                  <div class="col-sm-3" >
                       <div class="card">
                           <a href="votaciones/senadores.php"><img src="http://aytomengibar.com/wp-content/uploads/2019/04/generica-votaciones-votar-elecciones-democracia-745x450.jpg"
                               class="card-img-top" alt="..."></a>
@@ -110,7 +67,7 @@ foreach($listaActivos as $activos){
                       </div>
                   </div>
       
-                  <div class="col-sm-3"<?php if($diputado==false){echo "style='display: none;'";} ?> >
+                  <div class="col-sm-3" >
                       <div class="card">
                           <a href="votaciones/diputados.php"><img src="http://aytomengibar.com/wp-content/uploads/2019/04/generica-votaciones-votar-elecciones-democracia-745x450.jpg"
                               class="card-img-top" alt="..."></a>
