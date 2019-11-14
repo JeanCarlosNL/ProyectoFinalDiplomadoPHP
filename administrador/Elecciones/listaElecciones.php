@@ -18,6 +18,8 @@ $service = new EleccionService("../../database");
 
 $listado = $service->GetAll();
 
+date_default_timezone_set ( "America/Santo_Domingo" );
+$date = Date('Y-m-d');
 
 
 
@@ -57,11 +59,11 @@ $listado = $service->GetAll();
         </li>
         <li class="breadcrumb-item active">Lista</li>
     </ol>
-    <?php if (empty($listado)) : ?>
+<?php// if (empty($listado)) : ?>
 
-<h3>No hay Elecciones registrado, <a href="guardar.php" class="btn btn-primary my-2"><i class="fa fa-plus-square"></i> Agregar nuevo eleccion</a> </h3>
+<!--<h3>No hay Elecciones registrado, <a href="guardar.php" class="btn btn-primary my-2"><i class="fa fa-plus-square"></i> Agregar nuevo eleccion</a> </h3>-->
 
-<?php else : ?>
+<?php// else : ?>
     <!--Tabla-->
     <div class="card mb-3">
         <div class="card-header">
@@ -98,13 +100,12 @@ $listado = $service->GetAll();
                                             </th>
                                             <th scope="col">
                                                 <div class="btn-group">
-                                                    <a href="editar.php?id=<?php echo $eleccion->id; ?>" class="btn text-white btn-sm btn-outline-secondary btn-warning"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar</a>
-                                                    <a href="eliminar.php?id=<?php echo $eleccion->id; ?>" class="btn text-white btn-sm btn-outline-secondary btn-danger delete-button"><i class="fa fa-trash-o" aria-hidden="true"></i> Eliminar</a>
+                                                    <a href="resultados.php?id=<?php echo $eleccion->id; ?>" class="btn text-white btn-sm btn-outline-secondary btn-warning"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Ver Resultados</a>
+                                                    <a href="terminar.php?id=<?php echo $eleccion->id ?>" class="btn text-white btn-sm btn-outline-secondary btn-danger delete-button"><i class="fa fa-trash-o" aria-hidden="true"></i> Terminar</a>
                                                 </div>
                                             </th>
 
                                         </tr>
-
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>
@@ -115,7 +116,7 @@ $listado = $service->GetAll();
         </div>
     </div>
 </div>
-<?php endif; ?>
+<?php //endif; ?>
 
 
 <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -133,8 +134,8 @@ $listado = $service->GetAll();
           </div>
 
           <div class="form-group">
-            <label for="recipient-name" class="col-form-label">Fecha de la eleccion</label>
-            <input type="date" name ="fecha" class="form-control" id="recipient-name">
+            <label for="recipient-name"  class="col-form-label">Fecha de la eleccion</label>
+            <input type="date" name ="fecha" class="form-control" value="<?= $date ?>" readonly id="recipient-name">
           </div>
 
         </form>

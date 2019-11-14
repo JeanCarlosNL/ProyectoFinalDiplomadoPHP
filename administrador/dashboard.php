@@ -1,8 +1,33 @@
 <?php
  
+include "helpers/autorizado.php"; 
 include "layout/layout.php";
+include '../helpers/utilities.php';
+include '../helpers/FileHandler/IFileHandler.php';
+include '../helpers/FileHandler/JsonFileHandler.php';
+include '../database/SADVContext.php';
+include 'Elecciones/Eleccion.php';
+include '../database/repository/IRepository.php';
+include '../database/repository/RepositoryBase.php';
+include '../database/repository/RepositoryEleccion.php';
+include 'Elecciones/EleccionService.php';
 
 $layout = new layout(false,"dashboard",false);
+$service = new EleccionService("../database");
+
+$eleccionActiva = $service->GetAll();
+
+$activa = false;
+
+foreach($eleccionActiva as $eleccion){
+
+    if($eleccion->estado == 1){
+       $activa == true;
+    }
+
+}
+
+var_dump($eleccionActiva);
 
 ?>
 
@@ -28,6 +53,16 @@ $layout = new layout(false,"dashboard",false);
   <!-- Custom styles for this template-->
   <link href="../styles/css/sb-admin.css" rel="stylesheet">
 
+  <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
+  <link href="assets/vendor/fonts/circular-std/style.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/libs/css/style.css">
+  <link rel="stylesheet" href="assets/vendor/fonts/fontawesome/css/fontawesome-all.css">
+  <link rel="stylesheet" href="assets/vendor/charts/chartist-bundle/chartist.css">
+  <link rel="stylesheet" href="assets/vendor/charts/morris-bundle/morris.css">
+  <link rel="stylesheet" href="assets/vendor/fonts/material-design-iconic-font/css/materialdesignicons.min.css">
+  <link rel="stylesheet" href="assets/vendor/charts/c3charts/c3.css">
+  <link rel="stylesheet" href="assets/vendor/fonts/flag-icon-css/flag-icon.min.css">
+
 </head>
 
 <body id="page-top">
@@ -42,78 +77,141 @@ $layout = new layout(false,"dashboard",false);
           <li class="breadcrumb-item">
             <a href="#">Dashboard</a>
           </li>
-          <li class="breadcrumb-item active">Overview</li>
+          <li class="breadcrumb-item active">Eleccion Actual</li>
         </ol>
 
-        <!-- Icon Cards-->
-        <!--<div class="row">
-          <div class="col-xl-3 col-sm-6 mb-3">
-            <div class="card text-white bg-primary o-hidden h-100">
-              <div class="card-body">
-                <div class="card-body-icon">
-                  <i class="fas fa-fw fa-comments"></i>
-                </div>
-                <div class="mr-5">26 New Messages!</div>
+        <?php if($activa==false):?>
+        <?php else:?>
+
+        <div class="col-xl-9 col-lg-12 col-md-6 col-sm-12 col-12" style="text-align:center; margin-left: auto;margin-right: auto;">
+          <div class="card"style="border:solid;">
+              <h5 class="card-header">Elecciones Precidenciales</h5>
+              <div class="card-body p-0">
+                  <div class="table-responsive">
+                      <table class="table">
+                          <thead class="bg-light">
+                              <tr class="border-0">
+                                  <th class="border-0">Foto</th>
+                                  <th class="border-0">Posicion</th>
+                                  <th class="border-0">Candidato</th>
+                                  <th class="border-0">Cantidad de votos</th>
+                                  <th class="border-0">Porcentaje</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr>
+                                  <td>
+                                    <div class="m-r-10"><img src="assets/images/product-pic-2.jpg" alt="user" class="rounded" width="45"></div>
+                                  </td>
+                                  <td>1</td>
+                                  <td>Nombre del candidato</td>
+                                  <td>Candidad de votos</td>
+                                  <td>Porcentaje de los votos totales</td>
+                              </tr>
+                          </tbody>
+                      </table>
+                  </div>
               </div>
-              <a class="card-footer text-white clearfix small z-1" href="#">
-                <span class="float-left">View Details</span>
-                <span class="float-right">
-                  <i class="fas fa-angle-right"></i>
-                </span>
-              </a>
-            </div>
           </div>
-          <div class="col-xl-3 col-sm-6 mb-3">
-            <div class="card text-white bg-warning o-hidden h-100">
-              <div class="card-body">
-                <div class="card-body-icon">
-                  <i class="fas fa-fw fa-list"></i>
-                </div>
-                <div class="mr-5">11 New Tasks!</div>
+      </div>
+      <br><hr>
+      <div class="col-xl-9 col-lg-12 col-md-6 col-sm-12 col-12" style="text-align:center; margin-left: auto;margin-right: auto;">
+          <div class="card"style="border:solid;">
+              <h5 class="card-header">Elecciones Alcaldes</h5>
+              <div class="card-body p-0">
+                  <div class="table-responsive">
+                      <table class="table">
+                          <thead class="bg-light">
+                              <tr class="border-0">
+                                  <th class="border-0">Foto</th>
+                                  <th class="border-0">Posicion</th>
+                                  <th class="border-0">Candidato</th>
+                                  <th class="border-0">Cantidad de votos</th>
+                                  <th class="border-0">Porcentaje</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr>
+                                  <td>
+                                    <div class="m-r-10"><img src="assets/images/product-pic-2.jpg" alt="user" class="rounded" width="45"></div>
+                                  </td>
+                                  <td>1</td>
+                                  <td>Nombre del candidato</td>
+                                  <td>Candidad de votos</td>
+                                  <td>Porcentaje de los votos totales</td>
+                              </tr>
+                          </tbody>
+                      </table>
+                  </div>
               </div>
-              <a class="card-footer text-white clearfix small z-1" href="#">
-                <span class="float-left">View Details</span>
-                <span class="float-right">
-                  <i class="fas fa-angle-right"></i>
-                </span>
-              </a>
-            </div>
           </div>
-          <div class="col-xl-3 col-sm-6 mb-3">
-            <div class="card text-white bg-success o-hidden h-100">
-              <div class="card-body">
-                <div class="card-body-icon">
-                  <i class="fas fa-fw fa-shopping-cart"></i>
-                </div>
-                <div class="mr-5">123 New Orders!</div>
+      </div>
+      <br><hr>
+      <div class="col-xl-9 col-lg-12 col-md-6 col-sm-12 col-12" style="text-align:center; margin-left: auto;margin-right: auto;">
+          <div class="card"style="border:solid;">
+              <h5 class="card-header">Elecciones Senadores</h5>
+              <div class="card-body p-0">
+                  <div class="table-responsive">
+                      <table class="table">
+                          <thead class="bg-light">
+                              <tr class="border-0">
+                                  <th class="border-0">Foto</th>
+                                  <th class="border-0">Posicion</th>
+                                  <th class="border-0">Candidato</th>
+                                  <th class="border-0">Cantidad de votos</th>
+                                  <th class="border-0">Porcentaje</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr>
+                                  <td>
+                                    <div class="m-r-10"><img src="assets/images/product-pic-2.jpg" alt="user" class="rounded" width="45"></div>
+                                  </td>
+                                  <td>1</td>
+                                  <td>Nombre del candidato</td>
+                                  <td>Candidad de votos</td>
+                                  <td>Porcentaje de los votos totales</td>
+                              </tr>
+                          </tbody>
+                      </table>
+                  </div>
               </div>
-              <a class="card-footer text-white clearfix small z-1" href="#">
-                <span class="float-left">View Details</span>
-                <span class="float-right">
-                  <i class="fas fa-angle-right"></i>
-                </span>
-              </a>
-            </div>
           </div>
-          <div class="col-xl-3 col-sm-6 mb-3">
-            <div class="card text-white bg-danger o-hidden h-100">
-              <div class="card-body">
-                <div class="card-body-icon">
-                  <i class="fas fa-fw fa-life-ring"></i>
-                </div>
-                <div class="mr-5">13 New Tickets!</div>
+      </div>
+      <br><hr>
+      <div class="col-xl-9 col-lg-12 col-md-6 col-sm-12 col-12" style="text-align:center; margin-left: auto;margin-right: auto;">
+          <div class="card"  style="border:solid;">
+              <h5 class="card-header">Elecciones Diputados</h5>
+              <div class="card-body p-0">
+                  <div class="table-responsive">
+                      <table class="table">
+                          <thead class="bg-light">
+                              <tr class="border-0">
+                                <th class="border-0">Foto</th>
+                                  <th class="border-0">Posicion</th>
+                                  <th class="border-0">Candidato</th>
+                                  <th class="border-0">Cantidad de votos</th>
+                                  <th class="border-0">Porcentaje</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr>
+                                 <td>
+                                    <div class="m-r-10"><img src="assets/images/product-pic-2.jpg" alt="user" class="rounded" width="45"></div>
+                                  </td>
+                                  <td>1</td>
+                                  <td>Nombre del candidato</td>
+                                  <td>Candidad de votos</td>
+                                  <td>Porcentaje de los votos totales</td>
+                              </tr>
+                          </tbody>
+                      </table>
+                  </div>
               </div>
-              <a class="card-footer text-white clearfix small z-1" href="#">
-                <span class="float-left">View Details</span>
-                <span class="float-right">
-                  <i class="fas fa-angle-right"></i>
-                </span>
-              </a>
-            </div>
           </div>
-        </div>
-      </div>-->
-      <!-- /.container-fluid -->
+      </div>
+      <br><hr>
+        <?php endif;?>
 
      <?php $layout->mostrarFooter(); ?>
 

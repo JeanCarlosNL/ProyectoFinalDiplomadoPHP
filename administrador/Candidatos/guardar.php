@@ -28,7 +28,7 @@ $listadoPuesto = $puestoEService->GetAll();
 
 // Validacion de POST
 
-if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['nombrePartido']) && isset($_POST['nombrePuesto'])){
+if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['nombrePartido']) && isset($_POST['nombrePuesto']) && isset($_FILES['foto'])){
     $newEntity = new Candidato();
     $newEntity->InitializeData(0, $_POST['nombre'], $_POST['apellido'],$_POST['nombrePartido'],$_POST['nombrePuesto'],true);
     $service->Add($newEntity);
@@ -80,7 +80,7 @@ if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['nombreP
 
         <!-- Formulario -->
 
-        <form class="needs-validation" method="POST" action= "guardar.php" enctype="multipart/form-data" novalidate>
+        <form class="needs-validation" type="POST" action= "guardar.php" enctype="multipart/form-data" novalidate>
             <div class="form-row">
                 <div class="col-md-5 mb-3">
                 <h6><label for="nombre" class="col-form-label-lg col-form-label">Nombre</label></h6>
@@ -146,9 +146,9 @@ if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['nombreP
                         <span class="input-group-text" id="inputGroupFileAddon01"><i class="fa fa-file-image" aria-hidden="true"></i></span>
                     </div>
                     <div class="custom-file">
-                        <input name ="foto" type="file" class="custom-file-input" id="foto"
-                        aria-describedby="inputGroupFileAddon01">
-                        <label class="custom-file-label" for="foto"></label>
+                        <input name ="logo" type="file" class="custom-file-input" id="foto"
+                        aria-describedby="inputGroupFileAddon01" required>
+                        <label class="custom-file-label" for="logo">Escoja una logo</label>
                     </div>
                 </div>
                 </div>

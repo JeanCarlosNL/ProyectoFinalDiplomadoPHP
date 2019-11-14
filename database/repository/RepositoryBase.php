@@ -186,7 +186,7 @@ class RepositoryBase implements IRepository
             $field = "id";
         }
         if ($fieldStatus == null) {
-            $fieldStatus = "Status";
+            $fieldStatus = "estado";
         }
         $typeParamValue = $this->BindParam($value);
         $typeParamId = $this->BindParam($id);
