@@ -9,19 +9,22 @@ include '../../database/SADVContext.php';
 include 'Candidato.php';
 include '../../database/repository/IRepository.php';
 include '../../database/repository/RepositoryBase.php';
-include '../../database/repository/RepositoryCiudadano.php';
+include '../../database/repository/RepositoryCandidato.php';
+include '../../database/repository/RepositoryPartidos.php';
+include '../../database/repository/RepositoryPuestosE.php';
 include 'CandidatoService.php';
 include '../Partidos/Partido.php';
-include '../Partidos/PartidosServices.php';
+include '../Partidos/PartidoServices.php';
 include '../PuestosElectivos/PuestosElectivos.php';
-include '../PuestosElectivos/PuestosService.php.php';
+include '../PuestosElectivos/PuestosService.php';
 
 $layout = new layout(true,"candidatos",true);
 $utilities = new Utilities();
 $service = new CandidatoService("../../database");
 $partidoService = new PartidoService("../../database");
 $puestoEService = new PuestoElectivoService("../../database");
-
+$listadoPartido = $partidoService->GetAll();
+$listadoPuesto = $puestoEService->GetAll();
 
 // Validacion de POST
 $containId = isset($_GET['id']);
@@ -29,11 +32,13 @@ $element = null;
 if ($containId) {
     $id = $_GET['id'];
     $element = $service->GetById($id);
+    $elementPartido = $partidoService->GetById($element->idPartido);
+    $elementPuestoE = $puestoEService->GetById($element->idPuesto);
     $selectedActivo=($element->estado == "1") ? "selected" : ""; 
     $selectedInactivo=($element->estado == "0") ? "selected" : ""; 
 }
 
-if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['nombrePartido']) && isset($_POST['nombrePuesto']) && isset($_FILES['foto']) && isset($_POST['estado'])){
+if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['nombrePartido']) && isset($_POST['nombrePuesto'])&& isset($_POST['estado'])){
    
     $updateEntity = new Candidato();
     $updateEntity->InitializeData($id,$_POST['nombre'], $_POST['apellido'],$_POST['nombrePartido'],$_POST['nombrePuesto'],$_POST['estado']);
@@ -80,14 +85,14 @@ if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['nombreP
     <!--Formulario-->
     <div class="card mb-3">
         <div class="card-header">
-        <i class="fas fa-user-cog"></i> Edicion del Candidato <?= " *Nombre del Candidato* "?>   
+        <i class="fas fa-user-cog"></i> Edicion del Candidato <strong><?php echo $element->nombre;?></strong>   
         </div>
 
         <div class="card-body">
 
         <!-- Formulario -->
 
-        <form class="needs-validation" type="POST" action= "editar.php" enctype="multipart/form-data" novalidate>
+        <form class="needs-validation" method="POST" action= "editar.php?id=<?php echo $element->id; ?>" enctype="multipart/form-data" novalidate>
             <div class="form-row">
                 <div class="col-md-5 mb-3">
                     <h6><label for="nombre" class="col-form-label-lg col-form-label">Nombre</label></h6>
@@ -95,7 +100,7 @@ if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['nombreP
                         <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-user" aria-hidden="true"></i></span>
                         </div>
-                        <input value="<?php ?>" type="text" class="form-control" name="nombre" id="nombre" placeholder="Nombre del candidato" aria-describedby="inputGroupPrepend" required>
+                        <input value="<?php echo $element->nombre;?>" type="text" class="form-control" name="nombre" id="nombre" placeholder="Nombre del candidato" aria-describedby="inputGroupPrepend" required>
                         <div class="invalid-feedback">
                         Digite un nombre valido
                         </div>
@@ -107,7 +112,7 @@ if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['nombreP
                         <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-male" aria-hidden="true"></i></span>
                         </div>
-                        <input value="<?php ?>" type="text" class="form-control" name="apellido" id="apellido" placeholder="Apellido del candidato" aria-describedby="inputGroupPrepend" required>
+                        <input value="<?php echo $element->apellido;?>" type="text" class="form-control" name="apellido" id="apellido" placeholder="Apellido del candidato" aria-describedby="inputGroupPrepend" required>
                         <div class="invalid-feedback">
                         Digite un apellido valido
                         </div>
@@ -115,65 +120,67 @@ if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['nombreP
                 </div>
             </div>
             <div class="form-row">
-                <div class="col-md-3 mb-3">
-                    <h6><label for="Email" class="col-form-label-lg col-form-label">Partido Politico</label></h6>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-users" aria-hidden="true"></i></span>
-                        </div>
-
-                        <!-- Foreach de PHP -->
-
-                        <select name="nombrePartido" class="custom-select" required>
-                            <option name="nombrePartido" value="">Partido al que pertenece</option>
-                            <option name="nombrePartido" value="1">One</option>
-                            <option name="nombrePartido" value="2">Two</option>
-                            <option name="nombrePartido" value="3">Three</option>
-                        </select>
-
-                        <!-- /Foreach de PHP -->
-                        <div class="invalid-feedback">Selecione el partido politico del aspirante</div>
+            <div class="col-md-3 mb-3">
+            <h6><label for="Email" class="col-form-label-lg col-form-label">Partido</label></h6>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-users" aria-hidden="true"></i></span>
                     </div>
+                    <select name="nombrePartido" class="custom-select" required>
+                    <option name="nombrePartido" value="">Partido al que pertenece</option>
+                        <?php foreach ($listadoPartido as $partido) : ?>
+                        <?php if($element->idPartido == $partido->id):?>
+                            <option selected name="nombrePartido" value="<?php echo $partido->id;?>"><?php echo $partido->nombre;?></option>
+                            <?php else :?>
+                            <option name="nombrePartido" value="<?php echo $partido->id;?>"><?php echo $partido->nombre;?></option>
+                            <?php endif?>
+                        <?php endforeach; ?>
+                    </select>
+                    <div class="invalid-feedback">Selecione el partido politico del aspirante</div>
+                </div>
                 </div>
                 <div class="col-md-3 mb-3">
-                    <h6><label for="Email" class="col-form-label-lg col-form-label">Puesto</label></h6>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-briefcase" aria-hidden="true"></i></span>
-                        </div>
-                        <select name="nombrePuesto" class="custom-select" required>
-                            <option name="nombrePuesto" value="">Puesto al que aspira</option>
-                            <option name="nombrePuesto" value="1">One</option>
-                            <option name="nombrePuesto" value="2">Two</option>
-                            <option name="nombrePuesto" value="3">Three</option>
-                        </select>
-                        <div class="invalid-feedback">Seleccione el puesto al que aspira el candidato</div>
+                <h6><label for="Email" class="col-form-label-lg col-form-label">Puesto</label></h6>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-briefcase" aria-hidden="true"></i></span>
                     </div>
+                    <select name="nombrePuesto" class="custom-select" required>
+                        <option name="nombrePuesto" value="">Puesto al que aspira</option>
+                        <?php foreach ($listadoPuesto as $puestos) : ?>
+                        <?php if($element->idPuesto == $puestos->id):?>
+                            <option selected name="nombrePuesto" value="<?php echo $puestos->id;?>"><?php echo $puestos->nombre;?></option>
+                            <?php else :?>
+                            <option name="nombrePuesto" value="<?php echo $puestos->id;?>"><?php echo $puestos->nombre;?></option>
+                            <?php endif?>
+                        <?php endforeach; ?>
+                    </select>
+                    <div class="invalid-feedback">Seleccione el puesto al que aspira el candidato</div>
+                </div>
                 </div>
 
                 <div class="col-md-4 mb-3">
-                    <h6><label for="Email" class="col-form-label-lg col-form-label">Foto del candidato</label></h6>
+                <h6><label for="foto" class="col-form-label-lg col-form-label">Foto del candidato</label></h6>
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="inputGroupFileAddon01"><i class="fa fa-file-image" aria-hidden="true"></i></span>
                         </div>
                         <div class="custom-file">
-                            <input name ="foto" type="foto" class="custom-file-input" id="foto"
-                            aria-describedby="inputGroupFileAddon01">
-                            <label class="custom-file-label" for="foto">Escoja una imagen</label>
+                        <input name="foto" type="file" class="custom-file-input" id="foto"
+                            aria-describedby="inputGroupFileAddon01" >
+                            <label class="custom-file-label" for="foto"></label>
                         </div>
                     </div>
+                    <div class="col-md-6">                           
+                            <img class="bd-placeholder-img card-img-top" src="<?php echo $element->foto; ?>" width="100%" height="100%" alt="">
+                            </div>
                 </div>
             </div>
             <h6><label class="col-form-label-lg col-form-label">Estado</label></h6>
-            <div class="custom-control custom-radio">
-                <input type="radio" name="estado" class="custom-control-input" id="customControlValidation2" name="radio-stacked" checked required>
-                <label class="custom-control-label" for="customControlValidation2">Activo</label>
-            </div>
-            <div class="custom-control custom-radio mb-3">
-                <input type="radio" name="estado"  class="custom-control-input" id="customControlValidation3" name="radio-stacked" required>
-                <label class="custom-control-label" for="customControlValidation3">Inactivo</label>
-            </div>
+            <select name="estado" class="form-control" id="CheckStatus">
+            <option <?php echo $selectedActivo; ?> value="1">Activo</option>
+            <option <?php echo $selectedInactivo; ?> value="0">Inactivo</option>
+            </select>
             <br>
             <button class="btn btn-primary" type="submit">Editar</button>
         </form>

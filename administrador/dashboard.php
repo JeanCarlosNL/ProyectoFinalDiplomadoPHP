@@ -27,7 +27,6 @@ foreach($eleccionActiva as $eleccion){
 
 }
 
-var_dump($eleccionActiva);
 
 ?>
 
