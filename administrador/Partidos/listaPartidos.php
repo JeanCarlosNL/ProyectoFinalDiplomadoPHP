@@ -86,6 +86,7 @@ $listado = $service->GetAll();
                                 <tbody> 
                                 <?php foreach ($listado as $partido) : ?>
                                         <tr>
+                                            <th scope="col"><img src="<?php echo $partido->logo; ?>" height="100px"alt=""></th>
                                             <th scope="col"><?php echo $partido->nombre; ?></th>
                                             <th scope="col"><?php echo $partido->descripcion; ?></th>
                                             <th scope="col">

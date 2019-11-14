@@ -1,5 +1,5 @@
 <?php
-class PartidoService
+class CandidatoService
 {
     public $context;
     public $utility;
@@ -8,7 +8,7 @@ class PartidoService
     {
         $this->context = new SADVContext($directory);
         $this->utility = new Utilities();
-        $this->repository = new RepositoryCiudadano($this->context->db);
+        $this->repository = new RepositoryCandidato($this->context->db);
     }
     public function GetById($id, $field = null)
     {
