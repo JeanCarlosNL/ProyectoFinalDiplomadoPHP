@@ -9,7 +9,7 @@ include '../../database/SADVContext.php';
 include 'Candidato.php';
 include '../../database/repository/IRepository.php';
 include '../../database/repository/RepositoryBase.php';
-include '../../database/repository/RepositoryCiudadano.php';
+include '../../database/repository/RepositoryCandidato.php';
 include 'CandidatoService.php';
 
 
