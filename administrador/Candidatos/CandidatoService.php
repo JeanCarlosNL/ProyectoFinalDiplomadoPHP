@@ -8,7 +8,7 @@ class CandidatoService
     {
         $this->context = new SADVContext($directory);
         $this->utility = new Utilities();
-        $this->repository = new RepositoryCandidatos($this->context->db);
+        $this->repository = new RepositoryCandidato($this->context->db);
     }
     public function GetById($id, $field = null)
     {

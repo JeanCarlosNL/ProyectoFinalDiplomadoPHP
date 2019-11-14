@@ -9,7 +9,9 @@ include '../../database/SADVContext.php';
 include 'Candidato.php';
 include '../../database/repository/IRepository.php';
 include '../../database/repository/RepositoryBase.php';
-include '../../database/repository/RepositoryCiudadano.php';
+include '../../database/repository/RepositoryCandidato.php';
+include '../../database/repository/RepositoryPartidos.php';
+include '../../database/repository/RepositoryPuestosE.php';
 include 'CandidatoService.php';
 include '../Partidos/Partido.php';
 include '../Partidos/PartidoServices.php';
@@ -107,16 +109,15 @@ if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['nombreP
             </div>
             <div class="form-row">
                 <div class="col-md-3 mb-3">
-                <h6><label for="Email" class="col-form-label-lg col-form-label">Partido Polito</label></h6>
+                <h6><label for="Email" class="col-form-label-lg col-form-label">Partido</label></h6>
                 <div class="input-group">
                     <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-users" aria-hidden="true"></i></span>
                     </div>
                     <select name="nombrePartido" class="custom-select" required>
-                    <?php foreach ($listadoPuesto as $puestos) : ?>
-
-                        <option name="<?php echo $puesto->nombre;?>" value="<?php echo $puesto->id;?>"><?php echo $puesto->nombre;?></option>
-                        
+                    <option name="nombrePartido" value="">Partido al que pertenece</option>
+                        <?php foreach ($listadoPartido as $partido) : ?>
+                            <option name="nombrePartido" value="<?php echo $partido->id;?>"><?php echo $partido->nombre;?></option>
                         <?php endforeach; ?>
                     </select>
                     <div class="invalid-feedback">Selecione el partido politico del aspirante</div>
@@ -130,9 +131,9 @@ if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['nombreP
                     </div>
                     <select name="nombrePuesto" class="custom-select" required>
                         <option name="nombrePuesto" value="">Puesto al que aspira</option>
-                        <option name="nombrePuesto" value="1">One</option>
-                        <option name="nombrePuesto" value="2">Two</option>
-                        <option name="nombrePuesto" value="3">Three</option>
+                        <?php foreach ($listadoPuesto as $puestos) : ?>
+                            <option name="nombrePuesto" value="<?php echo $puestos->id;?>"><?php echo $puestos->nombre;?></option>
+                        <?php endforeach; ?>
                     </select>
                     <div class="invalid-feedback">Seleccione el puesto al que aspira el candidato</div>
                 </div>
@@ -145,9 +146,9 @@ if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['nombreP
                         <span class="input-group-text" id="inputGroupFileAddon01"><i class="fa fa-file-image" aria-hidden="true"></i></span>
                     </div>
                     <div class="custom-file">
-                        <input name ="foto" type="foto" class="custom-file-input" id="foto"
+                        <input name ="logo" type="file" class="custom-file-input" id="foto"
                         aria-describedby="inputGroupFileAddon01" required>
-                        <label class="custom-file-label" for="foto">Escoja una imagen</label>
+                        <label class="custom-file-label" for="logo">Escoja una logo</label>
                     </div>
                 </div>
                 </div>

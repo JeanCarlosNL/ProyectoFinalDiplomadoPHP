@@ -10,7 +10,11 @@ if(isset($_POST["documentoIdentidad"])){
 
 $mensaje="";
 if(isset($_SESSION['mensajeAutorizacion'])){
-   $mensaje=$_SESSION["mensajeAutorizacion"];
+    if($_SESSION['mensajeAutorizacion']=="No hay elecciones activas"){
+       $mensaje = "No hay elecciones activas";
+    }else{
+        $mensaje=$_SESSION['mensajeAutorizacion'];
+    }
 }
 $_SESSION['mensajeAutorizacion'] = "";
 ?>
@@ -38,7 +42,7 @@ $_SESSION['mensajeAutorizacion'] = "";
     <title>Inicio Ciudadano</title>
 </head>
 <body>
-<?php if($mensaje=="No tiene permizo para acceder"){echo "<script type='text/javascript'>alert('No tiene permitido acceder');</script>";}?>
+<?php if($mensaje!=""){echo "<script type='text/javascript'>alert('$mensaje');</script>";}?>
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
         <div class="container">

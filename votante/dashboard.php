@@ -7,13 +7,25 @@ include '../helpers/FileHandler/IFileHandler.php';
 include '../helpers/FileHandler/JsonFileHandler.php';
 include '../database/SADVContext.php';
 include '../administrador/PuestosElectivos/PuestosElectivos.php';
+include '../administrador/Elecciones/Eleccion.php';
 include '../database/repository/IRepository.php';
 include '../database/repository/RepositoryBase.php';
 include '../database/repository/RepositoryPuestosE.php';
+include '../database/repository/RepositoryEleccion.php';
 include '../administrador/PuestosElectivos/PuestosService.php';
+include '../administrador/Elecciones/EleccionService.php';
+
 
 $layout = new layout(false,false);
 $servicePuestos = new PuestoElectivoService("../database");
+$seviceElecciones = new EleccionService("../database");
+
+$listaElecciones = $seviceElecciones->GetAll();
+if($listaElecciones==null){
+    $_SESSION['mensajeAutorizacion']="No hay elecciones activas";
+    header("location:../index.php");
+    exit();
+}
 
 $lista=$servicePuestos->GetAll();
 $listaActivos = array();
