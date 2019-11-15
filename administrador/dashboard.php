@@ -7,24 +7,72 @@ include '../helpers/FileHandler/IFileHandler.php';
 include '../helpers/FileHandler/JsonFileHandler.php';
 include '../database/SADVContext.php';
 include 'Elecciones/Eleccion.php';
+include 'Candidatos/Candidato.php';
 include '../database/repository/IRepository.php';
 include '../database/repository/RepositoryBase.php';
 include '../database/repository/RepositoryEleccion.php';
+include '../database/repository/RepositoryCandidato.php';
+include '../database/repository/RepositoryPartidos.php';
+include '../database/repository/RepositoryPuestosE.php';
+include '../database/repository/RepositoryVotos.php';
 include 'Elecciones/EleccionService.php';
+include 'Candidatos/CandidatoService.php';
+include 'Partidos/Partido.php';
+include 'Partidos/PartidoServices.php';
+include 'PuestosElectivos/PuestosElectivos.php';
+include 'PuestosElectivos/PuestosService.php';
+include '../votante/votaciones/Votacion.php';
+include '../votante/votaciones/VotacionesServices.php';
+
 
 $layout = new layout(false,"dashboard",false);
 $service = new EleccionService("../database");
+$utilities = new Utilities();
+$serviceCandidatos = new CandidatoService("../database");
+$partidoService = new PartidoService("../database");
+$puestoEService = new PuestoElectivoService("../database");
+$serviceVotaciones = new VotacionService("../database");
 
+
+$Votaciones = $serviceVotaciones->getAll();
 $eleccionActiva = $service->GetAll();
+$Candidatos=$serviceCandidatos->GetAll();
+$puesto=$puestoEService->GetAll();
+
+$presidenteid=0;
+$diputadoid=0;
+$senadorid=0;
+$alcaldeid=0;
+$contadorVotos=0;
 
 $activa = false;
+$idEleccion=0;
 
 foreach($eleccionActiva as $eleccion){
 
     if($eleccion->estado == 1){
+        $idEleccion=$eleccion->id;
        $activa = true;
     }
 
+}
+foreach($Votaciones as $votos){
+    if ($idEleccion==$votos->eleccion){
+    }
+}
+foreach($puesto as $puesto){
+    if($puesto->nombre=="Presidente"){
+        $presidenteid=$puesto->id;
+    }
+    if($puesto->nombre=="Diputado"){
+        $diputadoid=$puesto->id;
+    }
+    if($puesto->nombre=="Senador"){
+        $senadorid=$puesto->id;
+    }
+    if($puesto->nombre=="Alcalde"){
+        $alcaldeid=$puesto->id;
+    }
 }
 
 
@@ -91,22 +139,26 @@ foreach($eleccionActiva as $eleccion){
                           <thead class="bg-light">
                               <tr class="border-0">
                                   <th class="border-0">Foto</th>
-                                  <th class="border-0">Posicion</th>
                                   <th class="border-0">Candidato</th>
                                   <th class="border-0">Cantidad de votos</th>
-                                  <th class="border-0">Porcentaje</th>
                               </tr>
                           </thead>
                           <tbody>
                               <tr>
+                              <?php foreach($Candidatos as $candidato):?>
+                              <?php $contadorVotos=0;?>
+                              <?php if($candidato->idPuesto==$presidenteid):?>
                                   <td>
-                                    <div class="m-r-10"><img src="assets/images/product-pic-2.jpg" alt="user" class="rounded" width="45"></div>
+                                    <div class="m-r-10"><img src="Candidatos/<?php echo $candidato->foto; ?>" height="100px" alt="user" class="rounded" width="90px"></div>
                                   </td>
-                                  <td>1</td>
-                                  <td>Nombre del candidato</td>
-                                  <td>Candidad de votos</td>
-                                  <td>Porcentaje de los votos totales</td>
+                                  <td><?php echo $candidato->nombre." ".$candidato->apellido;?></td>
+                                  <?php foreach($Votaciones as $votos):?>
+                                  <?php if($votos->presidente==$candidato->id){$contadorVotos++;}?>
+                                  <?php endforeach;?>
+                                  <td><?php echo $contadorVotos;?></td>
                               </tr>
+                              <?php endif;?>
+                              <?php endforeach;?>
                           </tbody>
                       </table>
                   </div>
@@ -123,22 +175,26 @@ foreach($eleccionActiva as $eleccion){
                           <thead class="bg-light">
                               <tr class="border-0">
                                   <th class="border-0">Foto</th>
-                                  <th class="border-0">Posicion</th>
                                   <th class="border-0">Candidato</th>
                                   <th class="border-0">Cantidad de votos</th>
-                                  <th class="border-0">Porcentaje</th>
                               </tr>
                           </thead>
                           <tbody>
-                              <tr>
+                          <tr>
+                              <?php foreach($Candidatos as $candidato):?>
+                              <?php $contadorVotos=0;?>
+                              <?php if($candidato->idPuesto==$alcaldeid):?>
                                   <td>
-                                    <div class="m-r-10"><img src="assets/images/product-pic-2.jpg" alt="user" class="rounded" width="45"></div>
+                                    <div class="m-r-10"><img src="Candidatos/<?php echo $candidato->foto; ?>" height="100px" alt="user" class="rounded" width="90px"></div>
                                   </td>
-                                  <td>1</td>
-                                  <td>Nombre del candidato</td>
-                                  <td>Candidad de votos</td>
-                                  <td>Porcentaje de los votos totales</td>
+                                  <td><?php echo $candidato->nombre." ".$candidato->apellido;?></td>
+                                  <?php foreach($Votaciones as $votos):?>
+                                  <?php if($votos->alcalde==$candidato->id){$contadorVotos++;}?>
+                                  <?php endforeach;?>
+                                  <td><?php echo $contadorVotos;?></td>
                               </tr>
+                              <?php endif;?>
+                              <?php endforeach;?>
                           </tbody>
                       </table>
                   </div>
@@ -155,22 +211,26 @@ foreach($eleccionActiva as $eleccion){
                           <thead class="bg-light">
                               <tr class="border-0">
                                   <th class="border-0">Foto</th>
-                                  <th class="border-0">Posicion</th>
                                   <th class="border-0">Candidato</th>
                                   <th class="border-0">Cantidad de votos</th>
-                                  <th class="border-0">Porcentaje</th>
                               </tr>
                           </thead>
                           <tbody>
-                              <tr>
+                          <tr>
+                              <?php foreach($Candidatos as $candidato):?>
+                              <?php $contadorVotos=0;?>
+                              <?php if($candidato->idPuesto==$senadorid):?>
                                   <td>
-                                    <div class="m-r-10"><img src="assets/images/product-pic-2.jpg" alt="user" class="rounded" width="45"></div>
+                                    <div class="m-r-10"><img src="Candidatos/<?php echo $candidato->foto; ?>" height="100px" alt="user" class="rounded" width="90px"></div>
                                   </td>
-                                  <td>1</td>
-                                  <td>Nombre del candidato</td>
-                                  <td>Candidad de votos</td>
-                                  <td>Porcentaje de los votos totales</td>
+                                  <td><?php echo $candidato->nombre." ".$candidato->apellido;?></td>
+                                  <?php foreach($Votaciones as $votos):?>
+                                  <?php if($votos->senador==$candidato->id){$contadorVotos++;}?>
+                                  <?php endforeach;?>
+                                  <td><?php echo $contadorVotos;?></td>
                               </tr>
+                              <?php endif;?>
+                              <?php endforeach;?>
                           </tbody>
                       </table>
                   </div>
@@ -187,22 +247,26 @@ foreach($eleccionActiva as $eleccion){
                           <thead class="bg-light">
                               <tr class="border-0">
                                 <th class="border-0">Foto</th>
-                                  <th class="border-0">Posicion</th>
                                   <th class="border-0">Candidato</th>
                                   <th class="border-0">Cantidad de votos</th>
-                                  <th class="border-0">Porcentaje</th>
                               </tr>
                           </thead>
                           <tbody>
-                              <tr>
-                                 <td>
-                                    <div class="m-r-10"><img src="assets/images/product-pic-2.jpg" alt="user" class="rounded" width="45"></div>
+                          <tr>
+                              <?php foreach($Candidatos as $candidato):?>
+                              <?php $contadorVotos=0;?>
+                              <?php if($candidato->idPuesto==$diputadoid):?>
+                                  <td>
+                                    <div class="m-r-10"><img src="Candidatos/<?php echo $candidato->foto; ?>" height="100px" alt="user" class="rounded" width="90px"></div>
                                   </td>
-                                  <td>1</td>
-                                  <td>Nombre del candidato</td>
-                                  <td>Candidad de votos</td>
-                                  <td>Porcentaje de los votos totales</td>
+                                  <td><?php echo $candidato->nombre." ".$candidato->apellido;?></td>
+                                  <?php foreach($Votaciones as $votos):?>
+                                  <?php if($votos->diputado==$candidato->id){$contadorVotos++;}?>
+                                  <?php endforeach;?>
+                                  <td><?php echo $contadorVotos;?></td>
                               </tr>
+                              <?php endif;?>
+                              <?php endforeach;?>
                           </tbody>
                       </table>
                   </div>

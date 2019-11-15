@@ -95,7 +95,7 @@ $listadoPuesto = $puestoEService->GetAll();
                                 <?php foreach ($listado as $candidato) : ?>
                                         <tr>
  
-                                        <th scope="col"><img src="<?php echo $candidato->foto; ?>" height="100px"alt=""></th>
+                                        <th scope="col"><img src="<?php echo $candidato->foto; ?>" width ="90px" height="100px"alt=""></th>
                                             <th scope="col"><?php echo $candidato->nombre; ?></th>
                                             <th scope="col"><?php echo $candidato->apellido; ?></th>
                                             <th scope="col"><?php echo $candidato->idPartido; ?></th>
