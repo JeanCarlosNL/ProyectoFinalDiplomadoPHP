@@ -31,7 +31,7 @@ class VotacionService
         if (isset($_COOKIE['Votaciones'])) {
             $votacion = json_decode($_COOKIE['Votaciones'],false); 
         } else {
-            setcookie("Votaciones", json_encode($votacion), $utilitiy->GetCookieTime(), "/");
+            setcookie("Votaciones", json_encode($votacion), $this->utility->GetCookieTime(), "/");
         }
 
         return $votacion;
@@ -39,19 +39,29 @@ class VotacionService
     
     
     
-    public function addcookie($entity){
+    public function addcookie($entity,$variable){
+        
         $votacion = $this->GetListCookies();
 
-       if (!empty($$votacion)) { //validamos si ya hay personajes creado
-        $lastCharacter = $utilitiy->getLastElement($votacion); //Obtenemos el ultimo elemento del listado de heroe  
-        $characterId =  $lastCharacter->id + 1; //como ya existen heroes el id del nuevo heroe debe ser el id el ultimo + 1
-    }
+        $ingresar =array($entity,$variable);
 
-    array_push($votacion, $entity); //Agregamos el personaje al listado de personajes
+    array_push($votacion, $ingresar); //Agregamos el personaje al listado de personajes
 
-    setcookie("Votaciones", json_encode($votacion), $utilitiy->GetCookieTime(), "/"); 
+    setcookie("Votaciones", json_encode($votacion), $this->utility->GetCookieTime(), "/"); 
     }
     
+    public function Delete()
+    {
+        $votacion = $this->GetListCookies();
+
+        //Obtenemos el listado actual de heroes almacenado en la session
+
+        unset($votacion);
+
+        $votacion = array_values($votacion);
+
+        setcookie("Votaciones", "", $this->utility->GetCookieTime(), "/");
+    }
 
 }
 ?>

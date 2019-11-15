@@ -33,6 +33,41 @@ if($listaElecciones==null){
     exit();
 }
 
+if(isset($_GET['u'])){
+    $serviceVotaciones->addcookie("usuario",$_GET['u']);
+    header("location:dashboard.php");
+
+    exit();
+
+}
+else if(isset($_GET['a'])){
+    $serviceVotaciones->addcookie("Alcalde",$_GET['a']);
+    header("location:dashboard.php");
+
+    exit();
+
+}
+else if(isset($_GET['s'])){
+    $serviceVotaciones->addcookie("Senador",$_GET['s']);
+    header("location:dashboard.php");
+
+    exit();
+
+}
+else if(isset($_GET['p'])){
+    $serviceVotaciones->addcookie("Presidente",$_GET['p']);
+    header("location:dashboard.php");
+
+    exit();
+
+}
+else if(isset($_GET['d'])){
+    $serviceVotaciones->addcookie("Diputado",$_GET['d'],"Diputado");
+    header("location:dashboard.php");
+
+    exit();
+
+}
 $lista=$servicePuestos->GetAll();
 $listaActivos = array();
 
@@ -63,13 +98,24 @@ foreach($listaActivos as $activos){
             $senador=true;
             break;
         case 'Diputado':
-            $diputado=true;
+            $diputado=true; 
             break;
     }
 }
-if(isset($_GET['u'])){
-    $votacion->setUsuario();
-    var_dump($_GET['u']);
+$resultado =$serviceVotaciones->GetListCookies();
+foreach($resultado as $lista){
+    $i=0;
+    var_dump($lista);
+    if($lista[$i]=='Presidente'){
+        $presidente=false;
+    }else if($lista[$i]=='Alcalde'){
+        $alcalde=false;
+    }else if($lista[$i]=='Senador'){
+        $senador=false;
+    }else if($lista[$i]=='Diputado'){
+        $diputado=false;
+    }
+    $i++;
 }
 
 ?>

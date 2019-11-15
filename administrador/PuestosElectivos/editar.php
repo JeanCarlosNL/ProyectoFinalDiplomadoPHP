@@ -10,6 +10,8 @@ include '../../database/repository/RepositoryBase.php';
 include '../../database/repository/RepositoryPuestosE.php';
 include 'PuestosService.php';
 
+session_start();
+
 $layout = new layout(true,"puestos",true);
 $utilities = new Utilities();
 $service = new PuestoElectivoService("../../database");
@@ -17,26 +19,44 @@ $service = new PuestoElectivoService("../../database");
 
 $containId = isset($_GET['id']);
 $element = null;
-
 if ($containId) {
-
     $id = $_GET['id'];
-
     $element = $service->GetById($id);
-
-$selectedActivo=($element->estado == "1") ? "selected" : ""; 
-$selectedInactivo=($element->estado == "0") ? "selected" : ""; 
+    $selectedActivo=($element->estado == "1") ? "selected" : ""; 
+    $selectedInactivo=($element->estado == "0") ? "selected" : ""; 
 }
-    if(isset($_POST['nombre']) && isset($_POST['descripcion'])){
-        $updateEntity = new PuestoElectivo();
+
+$listaPuestos = $service->GetAll();
+$nombres = array();
+
+
+if(isset($_POST['nombre']) && isset($_POST['descripcion'])){
+    
+    foreach($listaPuestos as $puesto){
+        if($puesto->nombre != $element->nombre){
+            $nombres[] = $puesto->nombre;
+        }
+    }  
+
+    foreach($nombres as $nombre){
+      if($_POST['nombre']==$nombre){
+          $_SESSION['mensajeExiste'] = "El partido ya existe";
+          header("location:editar.php?id={$element->id}");
+          exit();
+      }
+    }
+    $updateEntity = new PuestoElectivo();
         $updateEntity->InitializeData($id, $_POST['nombre'], $_POST['descripcion'], $_POST['estado']);
         $service->Update($updateEntity);
         header("Location: listaPuestos.php");
         exit();
+}
 
-    }
-
-
+$mensaje="";
+if(isset($_SESSION['mensajeExiste'])){
+   $mensaje = $_SESSION['mensajeExiste'];
+}
+$_SESSION['mensajeExiste']="";
 ?>
 
 <!DOCTYPE html>
@@ -58,6 +78,7 @@ $selectedInactivo=($element->estado == "0") ? "selected" : "";
 </head>
 <body  id="page-top">
 <?php $layout->mostrarHeader();?>
+<?php if($mensaje!=""){echo "<script type='text/javascript'>alert('$mensaje');</script>";}?>
 
 <div id="content-wrapper">
 

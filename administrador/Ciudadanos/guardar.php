@@ -16,13 +16,37 @@ $utilities = new Utilities();
 $service = new CiudadanoService("../../database");
 // Validacion de POST
 
+$listaCiudadanos = $service->GetAll();
+$documentosIdentidad = array();
+
+
+foreach($listaCiudadanos as $ciudadano){
+      $documentosIdentidad[] = $ciudadano->documentoIdentidad;
+}
+
+// Validacion de POST
+
 if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['email']) && isset($_POST['documentoIdentidad'])){
+    foreach($documentosIdentidad as $documento){
+      if($_POST['documentoIdentidad']==$documento){
+          $_SESSION['mensajeExiste']="El ciudadano ya existe";
+          header("location:guardar.php");
+          exit();
+      }
+        
+    }
     $newEntity = new Ciudadano();
     $newEntity->InitializeData(0,$_POST['documentoIdentidad'],$_POST['nombre'], $_POST['apellido'],$_POST['email'],true);
     $service->Add($newEntity);
     header("Location: listaCiudadanos.php"); 
     exit(); 
 }
+
+$mensaje="";
+if(isset($_SESSION['mensajeExiste'])){
+   $mensaje = $_SESSION['mensajeExiste'];
+}
+$_SESSION['mensajeExiste']="";
 
 ?>
 
@@ -65,6 +89,7 @@ if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['email']
         </div>
 
         <div class="card-body">
+        <?php if($mensaje!=""){echo "<script type='text/javascript'>alert('$mensaje');</script>";}?>
 
         <!-- Formulario -->
 

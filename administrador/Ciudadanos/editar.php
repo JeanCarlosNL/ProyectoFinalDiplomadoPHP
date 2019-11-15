@@ -24,17 +24,39 @@ if ($containId) {
     $selectedActivo=($element->estado == "1") ? "selected" : ""; 
     $selectedInactivo=($element->estado == "0") ? "selected" : ""; 
 }
+
+$listaCiudadanos = $service->GetAll();
+$documentosIdentidad = array();
+
 // Validacion de POST
 
-if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['email']) && isset($_POST['documentoIdentidad']) && isset($_POST['estado'])){
+if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['email']) && isset($_POST['documentoIdentidad'])){
+    
+    foreach($listaCiudadanos as $ciudadano){
+        if($ciudadano->documentoIdentidad != $element->documentoIdentidad){
+            $documentosIdentidad[] = $ciudadano->documentoIdentidad;
+        }
+    }  
 
+    foreach($documentosIdentidad as $documento){
+      if($_POST['documentoIdentidad']==$documento){
+          $_SESSION['mensajeExiste'] = "El ciudadano ya existe";
+          header("location:editar.php?id={$element->id}");
+          exit();
+      }
+    }
     $updateEntity = new Ciudadano();
-    $updateEntity->InitializeData($id,$_POST['documentoIdentidad'], $_POST['nombre'],$_POST['apellido'],$_POST['email'], $_POST['estado']);
+    $updateEntity->InitializeData($id,$_POST['documentoIdentidad'],$_POST['nombre'], $_POST['apellido'],$_POST['email'],true);
     $service->Update($updateEntity);
-    header("Location: listaCiudadanos.php");
-   exit();
+    header("Location: listaCiudadanos.php"); 
+    exit(); 
+}
 
-} else 
+$mensaje="";
+if(isset($_SESSION['mensajeExiste'])){
+   $mensaje = $_SESSION['mensajeExiste'];
+}
+$_SESSION['mensajeExiste']="";
 
 ?>
 
@@ -62,6 +84,8 @@ if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['email']
 
     <div class="container-fluid">
 
+    <?php if($mensaje!=""){echo "<script type='text/javascript'>alert('$mensaje');</script>";}?>
+
     <!-- Breadcrumbs-->
     <ol class="breadcrumb">
         <li class="breadcrumb-item">
@@ -69,8 +93,6 @@ if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['email']
         </li>
         <li class="breadcrumb-item active">Editar</li>
     </ol>
-    <?php if ($containId && $element != null) : ?>
-
     <!--Formulario-->
     <div class="card mb-3">
         <div class="card-header">
@@ -144,12 +166,6 @@ if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['email']
             <br>
             <button class="btn btn-primary" type="submit">Editar</button>
         </form>
-        <?php else : ?>
-
-<h2>No existe</h2>
-
-<?php endif; ?>
-
 <script>
 // Example starter JavaScript for disabling form submissions if there are invalid fields
 (function() {

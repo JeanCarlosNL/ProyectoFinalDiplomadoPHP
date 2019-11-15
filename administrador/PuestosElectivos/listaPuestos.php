@@ -96,8 +96,8 @@ $listado = $service->GetAll();
                                             </th>
                                             <th scope="col">
                                                 <div class="btn-group">
-                                                    <a href="editar.php?id=<?php echo $puestos->id; ?>" class="btn text-white btn-sm btn-outline-secondary btn-warning"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar</a>
-                                                    <a href="eliminar.php?id=<?php echo $puestos->id; ?>" class="btn text-white btn-sm btn-outline-secondary btn-danger delete-button"><i class="fa fa-trash-o" aria-hidden="true"></i> Eliminar</a>
+                                                    <a href="editar.php?id=<?php echo $puestos->id; ?>" class="btn text-white btn-sm btn-outline-secondary btn-warning" style="margin-right:10px;"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar</a>
+                                                    <a href="inactivar.php?id=<?php echo $puestos->id; ?>" class="btn text-white btn-sm btn-outline-secondary btn-danger delete-button"><i class="fa fa-trash-o" aria-hidden="true"></i>Inactivar</a>
                                                 </div>
                                             </th>
 
@@ -127,7 +127,7 @@ $listado = $service->GetAll();
  $(document).ready(function() {
           
           $(".delete-button").on("click",function(){
-            if(confirm("Esta seguro que deseas borrar este puesto ?")){
+            if(confirm("Esta seguro que deseas Inactivar este Puesto ?")){
                 window.location = "delete.php?id="+$(this).data("id");
             }
           });

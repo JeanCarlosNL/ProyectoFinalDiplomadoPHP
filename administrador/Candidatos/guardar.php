@@ -25,10 +25,28 @@ $partidoService = new PartidoService("../../database");
 $puestoEService = new PuestoElectivoService("../../database");
 $listadoPartido = $partidoService->GetAll();
 $listadoPuesto = $puestoEService->GetAll();
+$listadoCandidato = $service->GetAll();
+
+$nombres = array();
+$apellidos = array();
+
+foreach($listadoCandidato as $candidato){
+       $nombres[] = $candidato->nombre;
+       $apellidos[]=$candidato->apellido;
+}
 
 // Validacion de POST
 
 if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['nombrePartido']) && isset($_POST['nombrePuesto'])){
+    foreach($nombres as $nombre){
+       foreach($apellidos as $apellido){
+            if($_POST['nombre']==$nombre && $_POST['apellido']==$apellido){
+                $_SESSION['mensajeExiste']="El candidato ya existe";
+                header("location:guardar.php");
+                exit();
+            }
+        }
+    }
     $newEntity = new Candidato();
     $newEntity->InitializeData(0, $_POST['nombre'], $_POST['apellido'],$_POST['nombrePartido'],$_POST['nombrePuesto'],true);
     $service->Add($newEntity);
@@ -36,7 +54,15 @@ if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['nombreP
     exit(); 
 }
 
+$mensaje="";
+if(isset($_SESSION['mensajeExiste'])){
+   $mensaje = $_SESSION['mensajeExiste'];
+}
+$_SESSION['mensajeExiste']="";
+
+
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -73,10 +99,11 @@ if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['nombreP
     <!--Formulario-->
     <div class="card mb-3">
         <div class="card-header">
-        <i class="fas fa-user-cog"></i> Formulario de Candidatos      
+        <i class="fas fa-user-cog"></i> 
         </div>
 
         <div class="card-body">
+        <?php if($mensaje!=""){echo "<script type='text/javascript'>alert('$mensaje');</script>";}?>
 
         <!-- Formulario -->
 
@@ -146,8 +173,7 @@ if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['nombreP
                         <span class="input-group-text" id="inputGroupFileAddon01"><i class="fa fa-file-image" aria-hidden="true"></i></span>
                     </div>
                     <div class="custom-file">
-                    <input name ="foto" type="file" class="custom-file-input" id="foto"
-                        aria-describedby="inputGroupFileAddon01">
+                    <input name ="foto" type="file" class="custom-file-input" id="foto" required aria-describedby="inputGroupFileAddon01">
                         <label class="custom-file-label" for="foto"></label>
                     </div>
                 </div>

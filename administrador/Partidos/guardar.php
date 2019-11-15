@@ -21,14 +21,37 @@ $utilities = new Utilities();
 $service = new PartidoService("../../database");
 
 // Validacion de POST
+$listaPartidos = $service->GetAll();
+$nombres = array();
+
+
+foreach($listaPartidos as $partido){
+      $nombres[] = $partido->nombre;
+}
+
+// Validacion de POST
 
 if(isset($_POST['nombre']) && isset($_POST['descripcion'])){
+    foreach($nombres as $nombre){
+      if($_POST['nombre']==$nombre){
+          $_SESSION['mensajeExiste']="El Partido ya existe";
+          header("location:guardar.php");
+          exit();
+      }  
+    }
     $newEntity = new Partido();
     $newEntity->InitializeData(0, $_POST['nombre'], $_POST['descripcion'],true);
     $service->Add($newEntity);
     header("Location: listaPartidos.php"); 
     exit(); 
 }
+
+$mensaje="";
+if(isset($_SESSION['mensajeExiste'])){
+   $mensaje = $_SESSION['mensajeExiste'];
+}
+$_SESSION['mensajeExiste']="";
+
 
 ?>
 
@@ -51,6 +74,8 @@ if(isset($_POST['nombre']) && isset($_POST['descripcion'])){
 </head>
 <body  id="page-top">
 <?php $layout->mostrarHeader();?>
+<?php if($mensaje!=""){echo "<script type='text/javascript'>alert('$mensaje');</script>";}?>
+
 
 <div id="content-wrapper">
 

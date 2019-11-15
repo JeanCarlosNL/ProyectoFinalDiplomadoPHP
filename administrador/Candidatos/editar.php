@@ -25,6 +25,7 @@ $partidoService = new PartidoService("../../database");
 $puestoEService = new PuestoElectivoService("../../database");
 $listadoPartido = $partidoService->GetAll();
 $listadoPuesto = $puestoEService->GetAll();
+$listadoCandidato = $service->GetAll(); 
 
 // Validacion de POST
 $containId = isset($_GET['id']);
@@ -38,15 +39,44 @@ if ($containId) {
     $selectedInactivo=($element->estado == "0") ? "selected" : ""; 
 }
 
-if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['nombrePartido']) && isset($_POST['nombrePuesto'])&& isset($_POST['estado'])){
-   
-    $updateEntity = new Candidato();
-    $updateEntity->InitializeData($id,$_POST['nombre'], $_POST['apellido'],$_POST['nombrePartido'],$_POST['nombrePuesto'],$_POST['estado']);
-    $service->Update($updateEntity);
-    header("Location: listaCandidatos.php");
-   exit();
+echo $element->nombre;
+echo $element->apellido;
 
-} else 
+// Validacion de POST
+
+if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['nombrePartido']) && isset($_POST['nombrePuesto'])){
+    
+    foreach($listadoCandidato as $candidato){
+        if($candidato->nombre != $element->nombre){
+            $nombres[] = $candidato->nombre;
+        }
+        if($candidato->apellido != $element->apellido){
+            $apellidos[]=$candidato->apellido;
+        }
+    }
+    foreach($nombres as $nombre){
+        foreach($apellidos as $apellido){
+         if($_POST['nombre']==$nombre && $_POST['apellido']==$apellido){
+             $_SESSION['mensajeExiste']="El candidato ya existe";
+             header("location:editar.php");
+             exit();
+         }
+     }
+ }
+ 
+ $updateEntity = new Candidato();
+ $updateEntity->InitializeData($id, $_POST['nombre'], $_POST['apellido'],$_POST['nombrePartido'],$_POST['nombrePuesto'],true);
+ $service->Update($updateEntity);
+ header("Location: listaCandidatos.php"); 
+ exit(); 
+}
+
+$mensaje="";
+if(isset($_SESSION['mensajeExiste'])){
+   $mensaje = $_SESSION['mensajeExiste'];
+}
+$_SESSION['mensajeExiste']="";
+
 
 ?>
 
@@ -91,6 +121,7 @@ if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['nombreP
         <div class="card-body">
 
         <!-- Formulario -->
+        <?php if($mensaje!=""){echo "<script type='text/javascript'>alert('$mensaje');</script>";}?>
 
         <form class="needs-validation" method="POST" action= "editar.php?id=<?php echo $element->id; ?>" enctype="multipart/form-data" novalidate>
             <div class="form-row">

@@ -98,10 +98,8 @@ $listadoPuesto = $puestoEService->GetAll();
                                         <th scope="col"><img src="<?php echo $candidato->foto; ?>" height="100px"alt=""></th>
                                             <th scope="col"><?php echo $candidato->nombre; ?></th>
                                             <th scope="col"><?php echo $candidato->apellido; ?></th>
-                                            <?php  $elementPartido = $partidoService->GetById($candidato->idPartido); ?>
-                                            <th scope="col"><?php echo $elementPartido->nombre; ?></th>
-                                            <?php  $elementPuestoE = $puestoEService->GetById($candidato->idPuesto); ?>
-                                            <th scope="col"><?php echo $elementPuestoE->nombre; ?></th>
+                                            <th scope="col"><?php echo $candidato->idPartido; ?></th>
+                                            <th scope="col"><?php echo $candidato->idPuesto; ?></th>
                                             <th scope="col">
                                                 <div class="form-check">
                                                     <?php if ($candidato->estado) : ?>
@@ -113,8 +111,8 @@ $listadoPuesto = $puestoEService->GetAll();
                                             </th>
                                             <th scope="col">
                                                 <div class="btn-group">
-                                                    <a href="editar.php?id=<?php echo $candidato->id; ?>" class="btn text-white btn-sm btn-outline-secondary btn-warning"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar</a>
-                                                    <a href="eliminar.php?id=<?php echo $candidato->id; ?>" class="btn text-white btn-sm btn-outline-secondary btn-danger delete-button"><i class="fa fa-trash-o" aria-hidden="true"></i> Eliminar</a>
+                                                    <a href="editar.php?id=<?php echo $candidato->id; ?>" class="btn text-white btn-sm btn-outline-secondary btn-warning" style="margin-right:10px;"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> Editar</a>
+                                                    <a href="inactivar.php?id=<?php echo $candidato->id; ?>" class="btn text-white btn-sm btn-outline-secondary btn-danger delete-button"><i class="fa fa-trash-o" aria-hidden="true"></i> Inactivar</a>
                                                 </div>
                                             </th>
 
@@ -140,7 +138,7 @@ $listadoPuesto = $puestoEService->GetAll();
  $(document).ready(function() {
           
           $(".delete-button").on("click",function(){
-            if(confirm("Esta seguro que deseas borrar este ciudadano ?")){
+            if(confirm("Esta seguro que deseas Inactivar este Candidato?")){
                 window.location = "delete.php?id="+$(this).data("id");
             }
           });

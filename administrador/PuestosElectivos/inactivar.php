@@ -1,25 +1,25 @@
 <?php 
+
 include "../helpers/autorizado.php";
 include '../layout/layout.php';
 include '../../helpers/utilities.php';
 include '../../helpers/FileHandler/IFileHandler.php';
 include '../../helpers/FileHandler/JsonFileHandler.php';
 include '../../database/SADVContext.php';
-include 'Partido.php';
+include 'PuestosElectivos.php';
 include '../../database/repository/IRepository.php';
 include '../../database/repository/RepositoryBase.php';
-include '../../database/repository/RepositoryPartidos.php';
-include 'PartidoServices.php'; 
+include '../../database/repository/RepositoryPuestosE.php';
+include 'PuestosService.php';
 
-$service = new PartidoService("../../database");
-$containId = isset($_GET['id']); 
-$Id = 0;
-if ($containId) {
-    $Id = $_GET['id']; 
-    $service->Delete($Id);
-}
- header("Location: listaPartidos.php"); 
- exit(); 
+$layout = new layout(true,"elecciones",true);
+$utilities = new Utilities();
+$service = new PuestoElectivoService("../../database");
+
+$cambioEstado = $service->ChangeStatus($_GET['id'], 0);
+
+header('location:listaPuestos.php');
+ exit();
 
 
 ?>

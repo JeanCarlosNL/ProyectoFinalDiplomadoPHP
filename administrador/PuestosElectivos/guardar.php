@@ -10,21 +10,43 @@ include '../../database/repository/IRepository.php';
 include '../../database/repository/RepositoryBase.php';
 include '../../database/repository/RepositoryPuestosE.php';
 include 'PuestosService.php';
-
+session_start();
 $layout = new layout(true,"puestos",true);
 $utilities = new Utilities();
 $service = new PuestoElectivoService("../../database");
+
+$listaPuestos = $service->GetAll();
+$nombres = array();
+
+
+foreach($listaPuestos as $puesto){
+      $nombres[] = $puesto->nombre;
+}
+
 // Validacion de POST
 
 if(isset($_POST['nombre']) && isset($_POST['descripcion'])){
-    if(isset($_POST['nombre']) && isset($_POST['descripcion'])){
-        $newEntity = new PuestoElectivo();
+    foreach($nombres as $nombre){
+      if($_POST['nombre']==$nombre){
+          
+          $_SESSION['mensajeExiste']="El puesto ya existe";
+          header("location:guardar.php");
+          exit();
+      }  
+    }
+    $newEntity = new PuestoElectivo();
         $newEntity->InitializeData(0, $_POST['nombre'], $_POST['descripcion'],true);
         $service->Add($newEntity);
         header("Location: listaPuestos.php"); 
         exit(); 
-    }
 }
+
+$mensaje="";
+if(isset($_SESSION['mensajeExiste'])){
+   $mensaje = $_SESSION['mensajeExiste'];
+}
+$_SESSION['mensajeExiste']="";
+
 
 ?>
 
@@ -47,6 +69,7 @@ if(isset($_POST['nombre']) && isset($_POST['descripcion'])){
 </head>
 <body  id="page-top">
 <?php $layout->mostrarHeader();?>
+<?php if($mensaje!=""){echo "<script type='text/javascript'>alert('$mensaje');</script>";}?>
 
 <div id="content-wrapper">
 
@@ -59,74 +82,6 @@ if(isset($_POST['nombre']) && isset($_POST['descripcion'])){
         </li>
         <li class="breadcrumb-item active">Guardar</li>
     </ol>
-
-    <!-- Icon Cards-->
-    <!--<div class="row">
-        <div class="col-xl-3 col-sm-6 mb-3">
-        <div class="card text-white bg-primary o-hidden h-100">
-            <div class="card-body">
-            <div class="card-body-icon">
-                <i class="fas fa-fw fa-comments"></i>
-            </div>
-            <div class="mr-5">26 New Messages!</div>
-            </div>
-            <a class="card-footer text-white clearfix small z-1" href="#">
-            <span class="float-left">View Details</span>
-            <span class="float-right">
-                <i class="fas fa-angle-right"></i>
-            </span>
-            </a>
-        </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 mb-3">
-        <div class="card text-white bg-warning o-hidden h-100">
-            <div class="card-body">
-            <div class="card-body-icon">
-                <i class="fas fa-fw fa-list"></i>
-            </div>
-            <div class="mr-5">11 New Tasks!</div>
-            </div>
-            <a class="card-footer text-white clearfix small z-1" href="#">
-            <span class="float-left">View Details</span>
-            <span class="float-right">
-                <i class="fas fa-angle-right"></i>
-            </span>
-            </a>
-        </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 mb-3">
-        <div class="card text-white bg-success o-hidden h-100">
-            <div class="card-body">
-            <div class="card-body-icon">
-                <i class="fas fa-fw fa-shopping-cart"></i>
-            </div>
-            <div class="mr-5">123 New Orders!</div>
-            </div>
-            <a class="card-footer text-white clearfix small z-1" href="#">
-            <span class="float-left">View Details</span>
-            <span class="float-right">
-                <i class="fas fa-angle-right"></i>
-            </span>
-            </a>
-        </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 mb-3">
-        <div class="card text-white bg-danger o-hidden h-100">
-            <div class="card-body">
-            <div class="card-body-icon">
-                <i class="fas fa-fw fa-life-ring"></i>
-            </div>
-            <div class="mr-5">13 New Tickets!</div>
-            </div>
-            <a class="card-footer text-white clearfix small z-1" href="#">
-            <span class="float-left">View Details</span>
-            <span class="float-right">
-                <i class="fas fa-angle-right"></i>
-            </span>
-            </a>
-        </div>
-        </div>
-    </div>-->
 
     <!--Formulario-->
     <div class="card mb-3">

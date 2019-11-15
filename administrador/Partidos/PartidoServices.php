@@ -21,7 +21,7 @@ class PartidoService
         if ($_FILES['logo']) {
 
             if ($_FILES['logo']['error'] == 4) {
-                //$entity->logo = $element->logo;
+                $entity->logo = $element->logo;
             } else {
                 $typeReplace = str_replace("image/", "", $_FILES["logo"]["type"]);
             $type =  $_FILES["logo"]["type"];

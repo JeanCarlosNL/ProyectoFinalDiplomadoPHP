@@ -25,19 +25,38 @@ $selectedActivo=($element->estado == "1") ? "selected" : "";
 $selectedInactivo=($element->estado == "0") ? "selected" : ""; 
 }
 
-
+$listaPartidos = $service->GetAll();
+$nombres = array();
 
 // Validacion de POST
 
 if(isset($_POST['nombre']) && isset($_POST['descripcion'])){
+    
+    foreach($listaPartidos as $partido){
+        if($partido->nombre != $element->nombre){
+            $nombres[] = $partido->nombre;
+        }
+    }  
 
+    foreach($nombres as $nombre){
+      if($_POST['nombre']==$nombre){
+          $_SESSION['mensajeExiste'] = "El partido ya existe";
+          header("location:editar.php?id={$element->id}");
+          exit();
+      }
+    }
     $updateEntity = new Partido();
     $updateEntity->InitializeData($id, $_POST['nombre'], $_POST['descripcion'], $_POST['estado']);
     $service->Update($id, $updateEntity);
     header("Location: listaPartidos.php");
-   exit();
+    exit();
+}
 
-}else
+$mensaje="";
+if(isset($_SESSION['mensajeExiste'])){
+   $mensaje = $_SESSION['mensajeExiste'];
+}
+$_SESSION['mensajeExiste']="";
 
 ?>
 
@@ -61,6 +80,9 @@ if(isset($_POST['nombre']) && isset($_POST['descripcion'])){
 <body  id="page-top">
 <?php $layout->mostrarHeader();?>
 
+<?php if($mensaje!=""){echo "<script type='text/javascript'>alert('$mensaje');</script>";}?>
+
+
 <div id="content-wrapper">
 
     <div class="container-fluid">
@@ -73,8 +95,6 @@ if(isset($_POST['nombre']) && isset($_POST['descripcion'])){
         <li class="breadcrumb-item active">Editar</li>
     </ol>
 
-    
-    <?php if ($containId && $element != null) : ?>
     <!--Formulario-->
     <div class="card mb-3">
         <div class="card-header">
@@ -142,15 +162,25 @@ if(isset($_POST['nombre']) && isset($_POST['descripcion'])){
             <br>
             <button class="btn btn-primary" type="submit">Editar</button>
         </form>
-        <?php else : ?>
-
-<h2>No existe</h2>
-
-<?php endif; ?>
-
 
 <script>
-
+(function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.getElementsByClassName('needs-validation');
+    // Loop over them and prevent submission
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();
 </script>
         <!-- /Formulario -->
 
