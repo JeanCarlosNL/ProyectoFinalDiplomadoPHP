@@ -8,13 +8,19 @@ include '../helpers/FileHandler/JsonFileHandler.php';
 include '../database/SADVContext.php';
 include '../administrador/PuestosElectivos/PuestosElectivos.php';
 include '../administrador/Elecciones/Eleccion.php';
+include '../administrador/Ciudadanos/Ciudadano.php';
+
 include '../database/repository/IRepository.php';
 include '../database/repository/RepositoryBase.php';
 include '../database/repository/RepositoryPuestosE.php';
 include '../database/repository/RepositoryEleccion.php';
 include '../database/repository/RepositoryVotos.php';
+include '../database/repository/RepositoryCiudadano.php';
+
 include '../administrador/PuestosElectivos/PuestosService.php';
 include '../administrador/Elecciones/EleccionService.php';
+include '../administrador/Ciudadanos/CiudadanoService.php';
+
 include 'votaciones/Votacion.php';
 include 'votaciones/VotacionesServices.php';
 
@@ -23,17 +29,18 @@ $layout = new layout(false,false);
 $servicePuestos = new PuestoElectivoService("../database");
 $seviceElecciones = new EleccionService("../database");
 $serviceVotaciones = new VotacionService("../database");
+$serviceCiudadanos= new CiudadanoService("../database");
+
 
 
 $listaElecciones = $seviceElecciones->GetAll();
 if($listaElecciones==null){
     $_SESSION['mensajeAutorizacion']="No hay elecciones activas";
-    {echo "<script type='text/javascript'>alert('Este usuario no esta registrado. Pida al administrador que lo agregue.');</script>";}
-   // header("location:../index.php");
-   // exit();
+    header("location:../index.php");
+    exit();
 }
 
-/*if(isset($_GET['u'])&&isset($_GET['E'])){
+if(isset($_GET['u'])&&isset($_GET['E'])){
     $serviceVotaciones->addcookie("Usuario",$_GET['u']);
     header("location:dashboard.php?E=".$_GET['E']);
     exit();
@@ -42,7 +49,7 @@ if($listaElecciones==null){
 
     header("location:dashboard.php");
     exit();
-}*/
+}
     
 
 
@@ -204,6 +211,7 @@ foreach($resultado as $lista){
       
                   <?php if($presidente==false&&$alcalde==false&&$senador==false&&$diputado==false):?>
                     <?php     $serviceVotaciones->Add($votacion); ?>
+                    <?php $serviceCiudadanos->ChangeStatus($votacion->usuario, 0);?>
                     <h3>Gracias por votar</h3>
                     <a class="btn btn-primary" type="buttom" href="helpers/logout.php">Salir</a>
                    <?php endif;?>
