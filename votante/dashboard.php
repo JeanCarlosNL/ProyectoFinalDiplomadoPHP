@@ -24,7 +24,6 @@ $servicePuestos = new PuestoElectivoService("../database");
 $seviceElecciones = new EleccionService("../database");
 $serviceVotaciones = new VotacionService("../database");
 
-$votacion = new Votaciones();
 
 $listaElecciones = $seviceElecciones->GetAll();
 if($listaElecciones==null){
@@ -33,24 +32,28 @@ if($listaElecciones==null){
     exit();
 }
 
-if(isset($_GET['u'])){
-    $serviceVotaciones->addcookie("usuario",$_GET['u']);
-    header("location:dashboard.php");
-
+if(isset($_GET['u'])&&isset($_GET['E'])){
+    $serviceVotaciones->addcookie("Usuario",$_GET['u']);
+    header("location:dashboard.php?E=".$_GET['E']);
     exit();
+}if(isset($_GET['E'])){
+    $serviceVotaciones->addcookie("Eleccion",$_GET['E']);
 
+    header("location:dashboard.php");
+    exit();
 }
+    
+
+
 else if(isset($_GET['a'])){
     $serviceVotaciones->addcookie("Alcalde",$_GET['a']);
     header("location:dashboard.php");
-
     exit();
 
 }
 else if(isset($_GET['s'])){
     $serviceVotaciones->addcookie("Senador",$_GET['s']);
     header("location:dashboard.php");
-
     exit();
 
 }
@@ -103,20 +106,30 @@ foreach($listaActivos as $activos){
     }
 }
 $resultado =$serviceVotaciones->GetListCookies();
+ $votacion = new Votaciones();
+
 foreach($resultado as $lista){
-    $i=0;
-    var_dump($lista);
-    if($lista[$i]=='Presidente'){
+    if($lista[0]=='Presidente'){
         $presidente=false;
-    }else if($lista[$i]=='Alcalde'){
+        $votacion->setPresidente($lista[1]);
+    }else if($lista[0]=='Alcalde'){
         $alcalde=false;
-    }else if($lista[$i]=='Senador'){
+        $votacion->setAlcalde($lista[1]);
+    }else if($lista[0]=='Senador'){
         $senador=false;
-    }else if($lista[$i]=='Diputado'){
+        $votacion->setSenador($lista[1]);
+    }else if($lista[0]=='Diputado'){
         $diputado=false;
+        $votacion->setDiputado($lista[1]);
+    }else if($lista[0]=='Usuario'){
+        $votacion->setusuario($lista[1]);
+    }else if($lista[0]=='Eleccion'){
+        $votacion->setEleccion($lista[1]);
     }
-    $i++;
 }
+
+
+
 
 ?>
 
@@ -188,7 +201,11 @@ foreach($resultado as $lista){
                       </div>
                   </div>
       
-                  
+                  <?php if($presidente==false&&$alcalde==false&&$senador==false&&$diputado==false):?>
+                    <?php     $serviceVotaciones->Add($votacion); ?>
+                    <h3>Gracias por votar</h3>
+                    <a class="btn btn-primary" type="buttom" href="helpers/logout.php">Salir</a>
+                   <?php endif;?>
                   <!-- Fin Cards -->
       
               </div>

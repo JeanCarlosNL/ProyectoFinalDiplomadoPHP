@@ -10,9 +10,14 @@ if(isset($_SESSION['Administrador'])){
 
 
 if(isset($_POST['nombre']) && isset($_POST['contrasena'])){
-    $_SESSION['Administrador'] = "Soy admin";
+    if($_POST['nombre']==123&&$_POST['contrasena']==123){
+       $_SESSION['Administrador'] = "Soy admin";
     header("location:dashboard.php");
-    exit;
+    exit; 
+    }else{
+        {echo "<script type='text/javascript'>alert('Ingrese datos correctamente.');</script>";}
+    }
+    
 
 }
 $mensaje="";

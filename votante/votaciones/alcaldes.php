@@ -103,7 +103,7 @@ foreach($newListado as $listado){
                   <?php endforeach;?>
                   <div class="col-sm-3" >
                       <div class="card">
-                          <a href="../dashboard.php?a=none"><img src="http://aytomengibar.com/wp-content/uploads/2019/04/generica-votaciones-votar-elecciones-democracia-745x450.jpg"
+                          <a href="../dashboard.php?a=0"><img src="http://aytomengibar.com/wp-content/uploads/2019/04/generica-votaciones-votar-elecciones-democracia-745x450.jpg"
                               class="card-img-top" alt="..."></a>
                           <div class="card-body">
                               <h5 class="card-title fuente_cuerpo">Ninguno</h5>

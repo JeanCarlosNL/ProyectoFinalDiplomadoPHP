@@ -12,16 +12,20 @@ include '/administrador/Elecciones/EleccionService.php';
 $serviceElecciones = new EleccionService("database");
 $eleccion=$serviceElecciones->getAll();
 $contador=0;
+$EleccionActiva;
 foreach($eleccion as $activa){
-    if($activa->estado>=1){$contador++;}
+    if($activa->estado>=1){
+        $EleccionActiva=$activa;
+        $contador++;}
 }
-
 session_start();
 
 if(isset($_POST["documentoIdentidad"])&& $contador>=1){
     $_SESSION['Votante']="soy votante";
-    header("location:votante/dashboard.php?u=".$_POST['documentoIdentidad']);
+    header("location:votante/dashboard.php?u=".$_POST['documentoIdentidad']."&E=".$EleccionActiva->id);
        exit();
+}else {
+    {echo "<script type='text/javascript'>alert('No Hay elecciones activa, vuelva mas tarde.');</script>";}
 }
 
 $mensaje="";
