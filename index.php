@@ -20,8 +20,8 @@ session_start();
 
 if(isset($_POST["documentoIdentidad"])&& $contador>=1){
     $_SESSION['Votante']="soy votante";
-   header("location:votante/dashboard.php");
-   exit();
+    header("location:votante/dashboard.php?u=".$_POST['documentoIdentidad']);
+       exit();
 }
 
 $mensaje="";

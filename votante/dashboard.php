@@ -12,13 +12,19 @@ include '../database/repository/IRepository.php';
 include '../database/repository/RepositoryBase.php';
 include '../database/repository/RepositoryPuestosE.php';
 include '../database/repository/RepositoryEleccion.php';
+include '../database/repository/RepositoryVotos.php';
 include '../administrador/PuestosElectivos/PuestosService.php';
 include '../administrador/Elecciones/EleccionService.php';
+include 'votaciones/Votacion.php';
+include 'votaciones/VotacionesServices.php';
 
 
 $layout = new layout(false,false);
 $servicePuestos = new PuestoElectivoService("../database");
 $seviceElecciones = new EleccionService("../database");
+$serviceVotaciones = new VotacionService("../database");
+
+$votacion = new Votaciones();
 
 $listaElecciones = $seviceElecciones->GetAll();
 if($listaElecciones==null){
@@ -61,7 +67,10 @@ foreach($listaActivos as $activos){
             break;
     }
 }
-
+if(isset($_GET['u'])){
+    $votacion->setUsuario();
+    var_dump($_GET['u']);
+}
 
 ?>
 

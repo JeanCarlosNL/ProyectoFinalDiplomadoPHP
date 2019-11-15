@@ -94,7 +94,7 @@ foreach($newListado as $listado){
                   <?php foreach($newListado as $candidato): ?>
                     <div class="col-sm-3" >
                       <div class="card">
-                          <a href="candidatos/presidentes.php"><img src="http://aytomengibar.com/wp-content/uploads/2019/04/generica-votaciones-votar-elecciones-democracia-745x450.jpg"
+                      <a href="../dashboard.php?d=<?php echo $candidato->id;?>"><img src="<?php echo "../../administrador/Candidatos/".$candidato->foto;?>"
                               class="card-img-top" alt="..."></a>
                           <div class="card-body">
                               <h5 class="card-title fuente_cuerpo"><?php echo $candidato->nombre." ".$candidato->apellido;?></h5>
@@ -103,7 +103,16 @@ foreach($newListado as $listado){
                       </div>
                   </div> 
                   <?php endforeach;?>
-                  
+                  <div class="col-sm-3" >
+                      <div class="card">
+                          <a href="../dashboard.php?d=none"><img src="http://aytomengibar.com/wp-content/uploads/2019/04/generica-votaciones-votar-elecciones-democracia-745x450.jpg"
+                              class="card-img-top" alt="..."></a>
+                          <div class="card-body">
+                              <h5 class="card-title fuente_cuerpo">Ninguno</h5>
+                              <a href="desarrollador_software.html" class="card-link"></a>
+                          </div>
+                      </div>
+                  </div> 
                   <!-- Fin Cards -->
       
               </div>

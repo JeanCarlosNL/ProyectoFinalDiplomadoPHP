@@ -1,5 +1,5 @@
 <?php 
-class CandidatoService
+class VotacionService
 {
     public $context;
     public $utility;
@@ -22,5 +22,36 @@ class CandidatoService
     public function GetAll()
     {
         return $this->repository->GetAll();
+
+    } 
+    public function GetListCookies()
+    {
+        $votacion = array();
+
+        if (isset($_COOKIE['Votaciones'])) {
+            $votacion = json_decode($_COOKIE['Votaciones'],false); 
+        } else {
+            setcookie("Votaciones", json_encode($votacion), $utilitiy->GetCookieTime(), "/");
+        }
+
+        return $votacion;
     }
+    
+    
+    
+    public function addcookie($entity){
+        $votacion = $this->GetListCookies();
+
+       if (!empty($$votacion)) { //validamos si ya hay personajes creado
+        $lastCharacter = $utilitiy->getLastElement($votacion); //Obtenemos el ultimo elemento del listado de heroe  
+        $characterId =  $lastCharacter->id + 1; //como ya existen heroes el id del nuevo heroe debe ser el id el ultimo + 1
+    }
+
+    array_push($votacion, $entity); //Agregamos el personaje al listado de personajes
+
+    setcookie("Votaciones", json_encode($votacion), $utilitiy->GetCookieTime(), "/"); 
+    }
+    
+
+}
 ?>
