@@ -4,29 +4,66 @@ include '/helpers/FileHandler/IFileHandler.php';
 include '/helpers/FileHandler/JsonFileHandler.php';
 include '/database/SADVContext.php';
 include '/administrador/Elecciones/Eleccion.php';
+include '/administrador/Ciudadanos/Ciudadano.php';
 include '/database/repository/IRepository.php';
 include '/database/repository/RepositoryBase.php';
 include '/database/repository/RepositoryEleccion.php';
+include '/database/repository/RepositoryCiudadano.php';
 include '/administrador/Elecciones/EleccionService.php';
+include '/administrador/Ciudadanos/CiudadanoService.php';
 
 $serviceElecciones = new EleccionService("database");
+$serviceCiudadanos= new CiudadanoService("database");
 $eleccion=$serviceElecciones->getAll();
+$usuarios=$serviceCiudadanos->getAll();
 $contador=0;
 $EleccionActiva;
+$usuarioValido=false;
+$usuarioCredencial=null;
+$idUser = 0;
+$statusUser=0;
+
+session_start();
+//	asfsafasf1212
 foreach($eleccion as $activa){
     if($activa->estado>=1){
         $EleccionActiva=$activa;
         $contador++;}
 }
-session_start();
+if(isset($_POST["documentoIdentidad"])){
+     $_SESSION['Votante']="soy votante";
+    $usuarioCredencial=$_POST['documentoIdentidad'];
 
-if(isset($_POST["documentoIdentidad"])&& $contador>=1){
-    $_SESSION['Votante']="soy votante";
-    header("location:votante/dashboard.php?u=".$_POST['documentoIdentidad']."&E=".$EleccionActiva->id);
-       exit();
-}else {
-    {echo "<script type='text/javascript'>alert('No Hay elecciones activa, vuelva mas tarde.');</script>";}
+    foreach($usuarios as $valido){
+    if($valido->documentoIdentidad==$usuarioCredencial){
+        $idUser=$valido->id;
+        $statusUser=$valido->estado;
+        $usuarioValido=true;
+            }
+        }
+        if($contador>=1){
+        if($usuarioValido==true){
+            if($statusUser==1){
+               header("location:votante/dashboard.php?u=".$idUser."&E=".$EleccionActiva->id);
+        exit(); 
+            }else{
+                {echo "<script type='text/javascript'>alert('Este usuario no esta activo. Pida al administrador que lo active.');</script>";}
+            }
+        
+        }else{
+            {echo "<script type='text/javascript'>alert('Este usuario no esta registrado. Pida al administrador que lo agregue.');</script>";}
+        }
+    }else{
+        {echo "<script type='text/javascript'>alert('No Hay elecciones activa, vuelva mas tarde.');</script>";}
+    }
 }
+if(isset($_POST["documentoIdentidad"])){
+   
+    
+}
+
+
+
 
 $mensaje="";
 if(isset($_SESSION['mensajeAutorizacion'])){
@@ -36,6 +73,7 @@ if(isset($_SESSION['mensajeAutorizacion'])){
         $mensaje=$_SESSION['mensajeAutorizacion'];
     }
 }
+
 $_SESSION['mensajeAutorizacion'] = "";
 ?>
 

@@ -28,11 +28,12 @@ $serviceVotaciones = new VotacionService("../database");
 $listaElecciones = $seviceElecciones->GetAll();
 if($listaElecciones==null){
     $_SESSION['mensajeAutorizacion']="No hay elecciones activas";
-    header("location:../index.php");
-    exit();
+    {echo "<script type='text/javascript'>alert('Este usuario no esta registrado. Pida al administrador que lo agregue.');</script>";}
+   // header("location:../index.php");
+   // exit();
 }
 
-if(isset($_GET['u'])&&isset($_GET['E'])){
+/*if(isset($_GET['u'])&&isset($_GET['E'])){
     $serviceVotaciones->addcookie("Usuario",$_GET['u']);
     header("location:dashboard.php?E=".$_GET['E']);
     exit();
@@ -41,7 +42,7 @@ if(isset($_GET['u'])&&isset($_GET['E'])){
 
     header("location:dashboard.php");
     exit();
-}
+}*/
     
 
 
