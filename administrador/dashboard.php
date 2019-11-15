@@ -46,20 +46,17 @@ $alcaldeid=0;
 $contadorVotos=0;
 
 $activa = false;
-$idEleccion=0;
+$idEleccion=null;
 
 foreach($eleccionActiva as $eleccion){
 
     if($eleccion->estado == 1){
-        $idEleccion=$eleccion->id;
+        $idEleccion=$eleccion;
        $activa = true;
     }
 
 }
-foreach($Votaciones as $votos){
-    if ($idEleccion==$votos->eleccion){
-    }
-}
+
 foreach($puesto as $puesto){
     if($puesto->nombre=="Presidente"){
         $presidenteid=$puesto->id;
@@ -147,13 +144,13 @@ foreach($puesto as $puesto){
                               <tr>
                               <?php foreach($Candidatos as $candidato):?>
                               <?php $contadorVotos=0;?>
-                              <?php if($candidato->idPuesto==$presidenteid):?>
+                              <?php if($candidato->idPuesto==$presidenteid&&$idEleccion->estado==true):?>
                                   <td>
                                     <div class="m-r-10"><img src="Candidatos/<?php echo $candidato->foto; ?>" height="100px" alt="user" class="rounded" width="90px"></div>
                                   </td>
                                   <td><?php echo $candidato->nombre." ".$candidato->apellido;?></td>
                                   <?php foreach($Votaciones as $votos):?>
-                                  <?php if($votos->presidente==$candidato->id){$contadorVotos++;}?>
+                                  <?php if($votos->presidente==$candidato->id&&$votos->eleccion==$idEleccion->id){$contadorVotos++;}?>
                                   <?php endforeach;?>
                                   <td><?php echo $contadorVotos;?></td>
                               </tr>
@@ -183,13 +180,13 @@ foreach($puesto as $puesto){
                           <tr>
                               <?php foreach($Candidatos as $candidato):?>
                               <?php $contadorVotos=0;?>
-                              <?php if($candidato->idPuesto==$alcaldeid):?>
+                              <?php if($candidato->idPuesto==$alcaldeid&&$idEleccion->estado==true):?>
                                   <td>
                                     <div class="m-r-10"><img src="Candidatos/<?php echo $candidato->foto; ?>" height="100px" alt="user" class="rounded" width="90px"></div>
                                   </td>
                                   <td><?php echo $candidato->nombre." ".$candidato->apellido;?></td>
                                   <?php foreach($Votaciones as $votos):?>
-                                  <?php if($votos->alcalde==$candidato->id){$contadorVotos++;}?>
+                                  <?php if($votos->alcalde==$candidato->id&&$votos->eleccion==$idEleccion->id){$contadorVotos++;}?>
                                   <?php endforeach;?>
                                   <td><?php echo $contadorVotos;?></td>
                               </tr>
@@ -219,13 +216,13 @@ foreach($puesto as $puesto){
                           <tr>
                               <?php foreach($Candidatos as $candidato):?>
                               <?php $contadorVotos=0;?>
-                              <?php if($candidato->idPuesto==$senadorid):?>
+                              <?php if($candidato->idPuesto==$senadorid&&$idEleccion->estado==true):?>
                                   <td>
                                     <div class="m-r-10"><img src="Candidatos/<?php echo $candidato->foto; ?>" height="100px" alt="user" class="rounded" width="90px"></div>
                                   </td>
                                   <td><?php echo $candidato->nombre." ".$candidato->apellido;?></td>
                                   <?php foreach($Votaciones as $votos):?>
-                                  <?php if($votos->senador==$candidato->id){$contadorVotos++;}?>
+                                  <?php if($votos->senador==$candidato->id&&$votos->eleccion==$idEleccion->id){$contadorVotos++;}?>
                                   <?php endforeach;?>
                                   <td><?php echo $contadorVotos;?></td>
                               </tr>
@@ -255,13 +252,13 @@ foreach($puesto as $puesto){
                           <tr>
                               <?php foreach($Candidatos as $candidato):?>
                               <?php $contadorVotos=0;?>
-                              <?php if($candidato->idPuesto==$diputadoid):?>
+                              <?php if($candidato->idPuesto==$diputadoid&&$idEleccion->estado==true):?>
                                   <td>
                                     <div class="m-r-10"><img src="Candidatos/<?php echo $candidato->foto; ?>" height="100px" alt="user" class="rounded" width="90px"></div>
                                   </td>
                                   <td><?php echo $candidato->nombre." ".$candidato->apellido;?></td>
                                   <?php foreach($Votaciones as $votos):?>
-                                  <?php if($votos->diputado==$candidato->id){$contadorVotos++;}?>
+                                  <?php if($votos->diputado==$candidato->id&&$votos->eleccion==$idEleccion->id){$contadorVotos++;}?>
                                   <?php endforeach;?>
                                   <td><?php echo $contadorVotos;?></td>
                               </tr>

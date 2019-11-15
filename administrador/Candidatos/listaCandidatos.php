@@ -98,8 +98,10 @@ $listadoPuesto = $puestoEService->GetAll();
                                         <th scope="col"><img src="<?php echo $candidato->foto; ?>" width ="90px" height="100px"alt=""></th>
                                             <th scope="col"><?php echo $candidato->nombre; ?></th>
                                             <th scope="col"><?php echo $candidato->apellido; ?></th>
-                                            <th scope="col"><?php echo $candidato->idPartido; ?></th>
-                                            <th scope="col"><?php echo $candidato->idPuesto; ?></th>
+                                            <?php $elPartido = $partidoService->getById($candidato->idPartido);?>
+                                            <th scope="col"><?php echo $elPartido->nombre; ?></th>
+                                            <?php $elPuesto = $puestoEService->getById($candidato->idPuesto);?>
+                                            <th scope="col"><?php echo $elPuesto->nombre; ?></th>
                                             <th scope="col">
                                                 <div class="form-check">
                                                     <?php if ($candidato->estado) : ?>
